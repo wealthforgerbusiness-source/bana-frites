@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signUpWithEmail } from '../firebase/auth.js';
+import './SignupForm.css';
 
 function calculateAge(dateNaissance) {
   const birthDate = new Date(dateNaissance);
@@ -17,6 +19,8 @@ async function createUserProfile(uid, data) {
 }
 
 function SignupForm() {
+  const navigate = useNavigate();
+
   const [nom, setNom] = useState('');
   const [postnom, setPostnom] = useState('');
   const [prenom, setPrenom] = useState('');
@@ -95,101 +99,118 @@ function SignupForm() {
         dateNaissance,
         age: calculatedAge,
       });
+      setLoading(false);
+      navigate('/');
     } else {
       setGlobalError(result.error);
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      <h2>Créer un compte</h2>
+    <div className="signup-page">
+      <form className="signup-card" onSubmit={handleSubmit} noValidate>
+        <h2 className="signup-title">Créer un compte</h2>
 
-      {globalError && <p role="alert">{globalError}</p>}
+        {globalError && <p className="signup-global-error" role="alert">{globalError}</p>}
 
-      <div>
-        <label htmlFor="nom">Nom</label>
-        <input
-          type="text"
-          id="nom"
-          value={nom}
-          onChange={(e) => setNom(e.target.value)}
-        />
-        {errors.nom && <p>{errors.nom}</p>}
-      </div>
+        <div className="signup-field" style={{ animationDelay: '0.05s' }}>
+          <label htmlFor="nom">Nom</label>
+          <input
+            type="text"
+            id="nom"
+            className={errors.nom ? 'input-error' : ''}
+            value={nom}
+            onChange={(e) => setNom(e.target.value)}
+          />
+          {errors.nom && <p className="field-error">{errors.nom}</p>}
+        </div>
 
-      <div>
-        <label htmlFor="postnom">Postnom</label>
-        <input
-          type="text"
-          id="postnom"
-          value={postnom}
-          onChange={(e) => setPostnom(e.target.value)}
-        />
-        {errors.postnom && <p>{errors.postnom}</p>}
-      </div>
+        <div className="signup-field" style={{ animationDelay: '0.1s' }}>
+          <label htmlFor="postnom">Postnom</label>
+          <input
+            type="text"
+            id="postnom"
+            className={errors.postnom ? 'input-error' : ''}
+            value={postnom}
+            onChange={(e) => setPostnom(e.target.value)}
+          />
+          {errors.postnom && <p className="field-error">{errors.postnom}</p>}
+        </div>
 
-      <div>
-        <label htmlFor="prenom">Prénom</label>
-        <input
-          type="text"
-          id="prenom"
-          value={prenom}
-          onChange={(e) => setPrenom(e.target.value)}
-        />
-        {errors.prenom && <p>{errors.prenom}</p>}
-      </div>
+        <div className="signup-field" style={{ animationDelay: '0.15s' }}>
+          <label htmlFor="prenom">Prénom</label>
+          <input
+            type="text"
+            id="prenom"
+            className={errors.prenom ? 'input-error' : ''}
+            value={prenom}
+            onChange={(e) => setPrenom(e.target.value)}
+          />
+          {errors.prenom && <p className="field-error">{errors.prenom}</p>}
+        </div>
 
-      <div>
-        <label htmlFor="dateNaissance">Date de naissance</label>
-        <input
-          type="date"
-          id="dateNaissance"
-          value={dateNaissance}
-          onChange={handleDateNaissanceChange}
-        />
-        {age !== null && <p>Tu as {age} ans</p>}
-        {errors.dateNaissance && <p>{errors.dateNaissance}</p>}
-      </div>
+        <div className="signup-field" style={{ animationDelay: '0.2s' }}>
+          <label htmlFor="dateNaissance">Date de naissance</label>
+          <input
+            type="date"
+            id="dateNaissance"
+            className={errors.dateNaissance ? 'input-error' : ''}
+            value={dateNaissance}
+            onChange={handleDateNaissanceChange}
+          />
+          {age !== null && <p key={age} className="age-display">Tu as {age} ans</p>}
+          {errors.dateNaissance && <p className="field-error">{errors.dateNaissance}</p>}
+        </div>
 
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        {errors.email && <p>{errors.email}</p>}
-      </div>
+        <div className="signup-field" style={{ animationDelay: '0.25s' }}>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            className={errors.email ? 'input-error' : ''}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {errors.email && <p className="field-error">{errors.email}</p>}
+        </div>
 
-      <div>
-        <label htmlFor="password">Mot de passe</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {errors.password && <p>{errors.password}</p>}
-      </div>
+        <div className="signup-field" style={{ animationDelay: '0.3s' }}>
+          <label htmlFor="password">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            className={errors.password ? 'input-error' : ''}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {errors.password && <p className="field-error">{errors.password}</p>}
+        </div>
 
-      <div>
-        <label htmlFor="confirmPassword">Confirmation du mot de passe</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-      </div>
+        <div className="signup-field" style={{ animationDelay: '0.35s' }}>
+          <label htmlFor="confirmPassword">Confirmation du mot de passe</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            className={errors.confirmPassword ? 'input-error' : ''}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          {errors.confirmPassword && <p className="field-error">{errors.confirmPassword}</p>}
+        </div>
 
-      <button type="submit" disabled={loading}>
-        {loading ? 'Création en cours...' : 'Créer un compte'}
-      </button>
-    </form>
+        <button type="submit" className="signup-submit-btn" disabled={loading}>
+          {loading ? (
+            <span className="btn-loading">
+              <span className="spinner"></span>
+              Création en cours...
+            </span>
+          ) : (
+            'Créer un compte'
+          )}
+        </button>
+      </form>
+    </div>
   );
 }
 
