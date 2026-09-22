@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signInWithEmail, signInWithGoogle } from '../firebase/auth.js';
 import './SignupForm.css';
 import './LoginForm.css';
 
 function LoginForm() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -33,11 +36,13 @@ function LoginForm() {
     setLoading(true);
     const result = await signInWithEmail(email, password);
 
-    if (!result.success) {
+    if (result.success) {
+      setLoading(false);
+      navigate('/');
+    } else {
       setGlobalError(result.error);
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   async function handleGoogleSignIn() {
@@ -46,11 +51,13 @@ function LoginForm() {
 
     const result = await signInWithGoogle();
 
-    if (!result.success) {
+    if (result.success) {
+      setGoogleLoading(false);
+      navigate('/');
+    } else {
       setGlobalError(result.error);
+      setGoogleLoading(false);
     }
-
-    setGoogleLoading(false);
   }
 
   return (
