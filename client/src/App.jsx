@@ -4,6 +4,7 @@ import Header from './components/Header.jsx'
 import HomePage from './pages/HomePage.jsx'
 import SignupForm from './components/SignupForm.jsx'
 import LoginForm from './components/LoginForm.jsx'
+import SendAnonymousMessage from './pages/SendAnonymousMessage.jsx'
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/inscription" element={<SignupForm />} />
         <Route path="/connexion" element={<LoginForm />} />
+        <Route path="/m/:uid" element={<SendAnonymousMessage />} />
       </Routes>
     </>
   )
