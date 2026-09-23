@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { getReceivedMessages } from '../firebase/firestore.js';
+import UnlockModal from '../components/UnlockModal.jsx';
 import './ReceivedMessages.css';
 
 function formatDate(timestamp) {
@@ -27,6 +28,7 @@ function ReceivedMessages() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+  const [selectedMessageId, setSelectedMessageId] = useState(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -127,7 +129,10 @@ function ReceivedMessages() {
                   <p className="message-text">{msg.text}</p>
                   <div className="message-footer">
                     <span className="message-date">{formatDate(msg.createdAt)}</span>
-                    <button className="reveal-btn" disabled>
+                    <button
+                      className="reveal-btn"
+                      onClick={() => setSelectedMessageId(msg.id)}
+                    >
                       Révéler l'identité <span className="reveal-badge">1$</span>
                     </button>
                   </div>
@@ -147,6 +152,14 @@ function ReceivedMessages() {
           </>
         )}
       </div>
+
+      {selectedMessageId && (
+        <UnlockModal
+          messageId={selectedMessageId}
+          buyerUid={user.uid}
+          onClose={() => setSelectedMessageId(null)}
+        />
+      )}
     </div>
   );
 }
