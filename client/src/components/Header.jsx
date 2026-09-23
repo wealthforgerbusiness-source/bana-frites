@@ -29,6 +29,9 @@ function Header() {
           {!loading && (
             user ? (
               <div className="header-user">
+                <Link to="/mes-messages" className="header-messages-link">
+                  Mes messages
+                </Link>
                 <span className="header-username">{displayName}</span>
                 <button className="header-signout-btn" onClick={handleSignOut}>
                   Déconnexion
@@ -72,6 +75,7 @@ function Header() {
           {!loading && (
             user ? (
               <>
+                <li><Link to="/mes-messages" onClick={() => setMenuOpen(false)}>Mes messages</Link></li>
                 <li className="nav-user-info">{displayName}</li>
                 <li>
                   <button className="nav-signout-btn" onClick={handleSignOut}>
