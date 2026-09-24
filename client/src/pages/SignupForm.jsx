@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signUpWithEmail } from '../firebase/auth.js';
+import { createUserProfile } from '../firebase/firestore.js';
 import './SignupForm.css';
 
 function calculateAge(dateNaissance) {
@@ -12,10 +13,6 @@ function calculateAge(dateNaissance) {
     age--;
   }
   return age;
-}
-
-// TODO: sera connecté à Firestore dans le prompt suivant
-async function createUserProfile(uid, data) {
 }
 
 function SignupForm() {
@@ -98,15 +95,24 @@ function SignupForm() {
 
     if (result.success) {
       const calculatedAge = calculateAge(dateNaissance);
-      await createUserProfile(result.user.uid, {
+      const profileResult = await createUserProfile(result.user.uid, {
         nom,
         postnom,
         prenom,
         dateNaissance,
         age: calculatedAge,
+        email,
       });
+
       setLoading(false);
-      navigate('/');
+
+      if (profileResult.success) {
+        navigate('/');
+      } else {
+        setGlobalError(
+          "Ton compte a été créé, mais une erreur est survenue lors de l'enregistrement de ton profil. " + profileResult.error
+        );
+      }
     } else {
       setGlobalError(result.error);
       setLoading(false);
