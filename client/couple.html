@@ -103,7 +103,7 @@
 
         <!-- Écran 5 : résultat -->
         <div id="quizResult" class="couple-screen" hidden>
-          <div class="couple-hearts-anim couple-confetti" aria-hidden="true">
+          <div class="couple-hearts-anim couple-confetti" id="resultHeartsAnim" aria-hidden="true">
             <span class="couple-float" style="left: 5%; animation-delay: 0s">🎉</span>
             <span class="couple-float" style="left: 20%; animation-delay: 0.4s">💕</span>
             <span class="couple-float" style="left: 38%; animation-delay: 0.8s">🌸</span>
@@ -112,11 +112,22 @@
             <span class="couple-float" style="left: 88%; animation-delay: 0.6s">💘</span>
           </div>
 
-          <div class="couple-icon">💘</div>
-          <h1 class="couple-title" id="resultTitle">Résultat</h1>
-          <p class="couple-text">
-            Vous êtes compatibles à <span id="resultPercent">0</span>% !
-          </p>
+          <div id="resultScoreBlock">
+            <div class="couple-icon">💘</div>
+            <h1 class="couple-title" id="resultTitle">Résultat</h1>
+            <p class="couple-text">
+              Vous êtes compatibles à <span id="resultPercent">0</span>% !
+            </p>
+          </div>
+
+          <div id="resultLockedBlock" hidden>
+            <div class="couple-icon">🔒</div>
+            <h1 class="couple-title">Quiz déjà complété</h1>
+            <p class="couple-text">
+              Ce quiz a déjà été complété par les deux personnes concernées.
+            </p>
+          </div>
+
           <a class="couple-btn" href="/couple.html">Créer mon propre quiz</a>
         </div>
 
