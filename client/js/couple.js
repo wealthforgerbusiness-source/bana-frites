@@ -42,6 +42,9 @@ const answerNextBtn = document.getElementById("answerNextBtn");
 
 const resultTitle = document.getElementById("resultTitle");
 const resultPercent = document.getElementById("resultPercent");
+const resultScoreBlock = document.getElementById("resultScoreBlock");
+const resultLockedBlock = document.getElementById("resultLockedBlock");
+const resultHeartsAnim = document.getElementById("resultHeartsAnim");
 
 function showScreen(screen) {
   ALL_SCREENS.forEach((s) => {
@@ -210,7 +213,7 @@ answerNextBtn.addEventListener("click", async () => {
   answerNextBtn.disabled = true;
   answerNextBtn.textContent = "Envoi...";
 
-  const result = await submitCoupleAnswers(quizIdFromUrl, answerAnswers);
+  const result = await submitCoupleAnswers(quizIdFromUrl, answerAnswers, currentUser.uid);
 
   if (!result.success) {
     alert(result.error);
@@ -240,6 +243,20 @@ function computeScore(answersA, answersB) {
 function showResult(answersA, answersB) {
   const score = computeScore(answersA, answersB);
   resultPercent.textContent = String(score);
+
+  resultScoreBlock.hidden = false;
+  resultLockedBlock.hidden = true;
+  resultHeartsAnim.hidden = false;
+
+  showScreen(quizResult);
+}
+
+// Vu par une 3e personne qui ouvre un lien déjà complété : pas de score affiché.
+function showLockedResult() {
+  resultScoreBlock.hidden = true;
+  resultLockedBlock.hidden = false;
+  resultHeartsAnim.hidden = true;
+
   showScreen(quizResult);
 }
 
@@ -257,10 +274,17 @@ async function loadQuizFromUrl(quizId) {
 
   loadedQuiz = result.data;
 
-  // Le quiz a déjà les deux séries de réponses : on affiche directement le résultat
-  // (que ce soit le créateur ou la deuxième personne qui rouvre le lien).
+  // Le quiz a déjà les deux séries de réponses.
   if (loadedQuiz.answersB) {
-    showResult(loadedQuiz.answers, loadedQuiz.answersB);
+    const isParticipant =
+      loadedQuiz.creatorUid === currentUser.uid || loadedQuiz.secondPlayerUid === currentUser.uid;
+
+    if (isParticipant) {
+      showResult(loadedQuiz.answers, loadedQuiz.answersB);
+    } else {
+      // Une 3e personne ouvre le lien après coup : pas de score, juste "déjà complété".
+      showLockedResult();
+    }
     return;
   }
 
