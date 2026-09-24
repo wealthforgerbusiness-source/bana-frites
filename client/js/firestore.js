@@ -127,3 +127,47 @@ export async function getReceivedMessages(uid, lastVisible = null) {
     return { success: false, error: "Impossible de charger les messages. Veuillez réessayer." };
   }
 }
+// --- Jeu Couple ---
+
+export async function createCoupleQuiz(creatorUid, answers) {
+  try {
+    const quizRef = doc(collection(db, "coupleQuizzes"));
+
+    await setDoc(quizRef, {
+      creatorUid,
+      answers,
+      answersB: null,
+      createdAt: serverTimestamp(),
+    });
+
+    return { success: true, quizId: quizRef.id };
+  } catch (error) {
+    return { success: false, error: "Impossible de créer le quiz. Veuillez réessayer." };
+  }
+}
+
+export async function getCoupleQuiz(quizId) {
+  try {
+    const docSnap = await getDoc(doc(db, "coupleQuizzes", quizId));
+
+    if (!docSnap.exists()) {
+      return { success: false, error: "Quiz introuvable." };
+    }
+
+    return { success: true, data: docSnap.data() };
+  } catch (error) {
+    return { success: false, error: "Impossible de charger le quiz. Veuillez réessayer." };
+  }
+}
+
+export async function submitCoupleAnswers(quizId, answersB) {
+  try {
+    await updateDoc(doc(db, "coupleQuizzes", quizId), {
+      answersB,
+    });
+
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Impossible d'enregistrer tes réponses. Veuillez réessayer." };
+  }
+}
