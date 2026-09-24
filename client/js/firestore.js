@@ -137,6 +137,7 @@ export async function createCoupleQuiz(creatorUid, answers) {
       creatorUid,
       answers,
       answersB: null,
+      secondPlayerUid: null,
       createdAt: serverTimestamp(),
     });
 
@@ -160,10 +161,11 @@ export async function getCoupleQuiz(quizId) {
   }
 }
 
-export async function submitCoupleAnswers(quizId, answersB) {
+export async function submitCoupleAnswers(quizId, answersB, secondPlayerUid) {
   try {
     await updateDoc(doc(db, "coupleQuizzes", quizId), {
       answersB,
+      secondPlayerUid,
     });
 
     return { success: true };
