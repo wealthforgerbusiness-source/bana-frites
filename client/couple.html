@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeu Couple — Bana Frites</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="nav-panel" id="navPanel">
+      <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
+      <ul class="nav-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="#">Message anonyme</a></li>
+        <li><a href="#">Matching</a></li>
+        <li><a href="#">Jeu couple</a></li>
+        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+      </ul>
+    </nav>
+
+    <div class="couple-page">
+      <div class="couple-container">
+
+        <div id="loadingState">
+          <p class="messages-loading">Chargement...</p>
+        </div>
+
+        <!-- Écran 1 : intro -->
+        <div id="quizIntro" class="couple-screen" hidden>
+          <div class="couple-icon">💕</div>
+          <h1 class="couple-title">Jeu Couple 💕</h1>
+          <p class="couple-text">
+            Réponds à 5 questions sur tes préférences, partage le lien à ta moitié,
+            et découvrez votre compatibilité !
+          </p>
+          <button class="couple-btn" id="startQuizBtn">Créer mon quiz</button>
+        </div>
+
+        <!-- Écran 2 : création du quiz (question par question) -->
+        <div id="quizCreate" class="couple-screen" hidden>
+          <p class="couple-progress" id="createProgress">Question 1/5</p>
+          <div class="couple-question" id="createQuestionContainer"></div>
+          <div class="couple-nav-buttons">
+            <button type="button" class="couple-nav-btn couple-nav-prev" id="createPrevBtn" hidden>Précédent</button>
+            <button type="button" class="couple-nav-btn couple-nav-next" id="createNextBtn" disabled>Suivant</button>
+          </div>
+        </div>
+
+        <!-- Écran 3 : partage du lien -->
+        <div id="quizShare" class="couple-screen" hidden>
+          <div class="couple-hearts-anim" aria-hidden="true">
+            <span class="couple-float" style="left: 8%; animation-delay: 0s">💕</span>
+            <span class="couple-float" style="left: 25%; animation-delay: 0.6s">🌸</span>
+            <span class="couple-float" style="left: 45%; animation-delay: 1.2s">💖</span>
+            <span class="couple-float" style="left: 62%; animation-delay: 0.3s">🌼</span>
+            <span class="couple-float" style="left: 80%; animation-delay: 0.9s">💘</span>
+            <span class="couple-float" style="left: 95%; animation-delay: 1.5s">🌷</span>
+          </div>
+
+          <div class="couple-icon">💌</div>
+          <h1 class="couple-title">Ton quiz est prêt !</h1>
+          <p class="couple-text">Envoie ce lien à ta moitié pour voir votre compatibilité.</p>
+
+          <div class="couple-share-box">
+            <input type="text" class="couple-share-input" id="shareLinkInput" readonly />
+            <button type="button" class="couple-copy-btn" id="copyShareLinkBtn">Copier</button>
+          </div>
+
+          <a class="couple-whatsapp-btn" id="whatsappShareBtn" href="#" target="_blank" rel="noopener">
+            Partager sur WhatsApp 💚
+          </a>
+        </div>
+
+        <!-- Écran 4 : réponse au quiz reçu -->
+        <div id="quizAnswer" class="couple-screen" hidden>
+          <p class="couple-progress" id="answerProgress">Question 1/5</p>
+          <div class="couple-question" id="answerQuestionContainer"></div>
+          <div class="couple-nav-buttons">
+            <button type="button" class="couple-nav-btn couple-nav-prev" id="answerPrevBtn" hidden>Précédent</button>
+            <button type="button" class="couple-nav-btn couple-nav-next" id="answerNextBtn" disabled>Suivant</button>
+          </div>
+        </div>
+
+        <!-- Écran 5 : résultat -->
+        <div id="quizResult" class="couple-screen" hidden>
+          <div class="couple-hearts-anim couple-confetti" aria-hidden="true">
+            <span class="couple-float" style="left: 5%; animation-delay: 0s">🎉</span>
+            <span class="couple-float" style="left: 20%; animation-delay: 0.4s">💕</span>
+            <span class="couple-float" style="left: 38%; animation-delay: 0.8s">🌸</span>
+            <span class="couple-float" style="left: 55%; animation-delay: 0.2s">💖</span>
+            <span class="couple-float" style="left: 72%; animation-delay: 1.1s">🌼</span>
+            <span class="couple-float" style="left: 88%; animation-delay: 0.6s">💘</span>
+          </div>
+
+          <div class="couple-icon">💘</div>
+          <h1 class="couple-title" id="resultTitle">Résultat</h1>
+          <p class="couple-text">
+            Vous êtes compatibles à <span id="resultPercent">0</span>% !
+          </p>
+          <a class="couple-btn" href="/couple.html">Créer mon propre quiz</a>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/bottomnav.js"></script>
+    <script type="module" src="/js/couple.js"></script>
+  </body>
+</html>
