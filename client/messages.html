@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mes messages — Bana Frites</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="nav-panel" id="navPanel">
+      <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
+      <ul class="nav-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="#">Message anonyme</a></li>
+        <li><a href="#">Matching</a></li>
+        <li><a href="#">Jeu couple</a></li>
+        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+      </ul>
+    </nav>
+
+    <div class="messages-page">
+      <div class="messages-container">
+
+        <div id="loadingState">
+          <p class="messages-loading">Chargement...</p>
+        </div>
+
+        <div id="contentState" hidden>
+          <h1 class="messages-title">Mes messages reçus</h1>
+
+          <div class="share-box">
+            <p class="share-label">Ton lien personnel</p>
+            <div class="share-link-row">
+              <input type="text" class="share-link-input" id="shareLinkInput" readonly />
+              <button class="share-copy-btn" id="copyLinkBtn">Copier le lien</button>
+            </div>
+          </div>
+
+          <p class="messages-error" id="errorMsg" hidden></p>
+
+          <div id="messagesListState">
+            <p class="messages-loading" id="messagesLoading">Chargement des messages...</p>
+            <p class="messages-empty" id="emptyState" hidden>Pas encore de message... partage ton lien !</p>
+
+            <div class="messages-list" id="messagesList"></div>
+
+            <button class="load-more-btn" id="loadMoreBtn" hidden>Voir plus</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="unlock-overlay" id="unlockOverlay" hidden>
+      <div class="unlock-card" id="unlockCard">
+        <button class="unlock-close-btn" id="unlockCloseBtn" aria-label="Fermer">✕</button>
+
+        <div class="unlock-icon">🔒</div>
+        <h2 class="unlock-title">Débloque cette identité</h2>
+        <p class="unlock-text">Découvre qui t'a envoyé ce message pour seulement 1$</p>
+
+        <p class="unlock-error" id="unlockError" hidden></p>
+
+        <div class="unlock-field">
+          <label for="unlockPhone">Numéro Mobile Money</label>
+          <input type="tel" id="unlockPhone" placeholder="Ex: 09XXXXXXXX" />
+        </div>
+
+        <button class="unlock-pay-btn" id="unlockPayBtn">Payer avec Mobile Money</button>
+        <button class="unlock-cancel-link" id="unlockCancelBtn">Annuler</button>
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/bottomnav.js"></script>
+    <script type="module" src="/js/messages.js"></script>
+  </body>
+</html>
