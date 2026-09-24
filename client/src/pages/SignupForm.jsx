@@ -56,8 +56,8 @@ function SignupForm() {
       newErrors.dateNaissance = 'La date de naissance est obligatoire.';
     } else {
       const calculatedAge = calculateAge(dateNaissance);
-      if (calculatedAge < 13) {
-        newErrors.dateNaissance = 'Tu dois avoir au moins 13 ans pour t\'inscrire';
+      if (calculatedAge < 18) {
+        newErrors.dateNaissance = 'Tu dois avoir au moins 18 ans pour t\'inscrire';
       }
     }
 
