@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon profil — Bana Frites</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="nav-panel" id="navPanel">
+      <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
+      <ul class="nav-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="#">Message anonyme</a></li>
+        <li><a href="#">Matching</a></li>
+        <li><a href="#">Jeu couple</a></li>
+        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+      </ul>
+    </nav>
+
+    <div class="profile-page">
+      <div class="profile-container">
+
+        <div id="loadingState">
+          <p class="profile-loading">Chargement...</p>
+        </div>
+
+        <div id="contentState" hidden>
+          <h1 class="profile-title">Mon profil</h1>
+
+          <p class="profile-error" id="fetchError" hidden></p>
+
+          <div id="profileContent" hidden>
+            <div class="profile-avatar-block" id="avatarBlock"></div>
+
+            <div class="profile-readonly-fields">
+              <div class="profile-readonly-field">
+                <span class="profile-readonly-label">Nom</span>
+                <span class="profile-readonly-value" id="nomValue"></span>
+              </div>
+              <div class="profile-readonly-field">
+                <span class="profile-readonly-label">Prénom</span>
+                <span class="profile-readonly-value" id="prenomValue"></span>
+              </div>
+            </div>
+
+            <div class="profile-description-block">
+              <label for="description">Description</label>
+              <textarea
+                id="description"
+                class="profile-textarea"
+                maxlength="200"
+                rows="4"
+                placeholder="Parle un peu de toi..."
+              ></textarea>
+              <p class="profile-counter"><span id="charCount">200</span> caractères restants</p>
+
+              <p class="profile-error" id="saveError" hidden></p>
+              <p class="profile-success" id="saveSuccess" hidden>Profil mis à jour !</p>
+
+              <button class="profile-save-btn" id="saveBtn">Enregistrer</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/bottomnav.js"></script>
+    <script type="module" src="/js/profil.js"></script>
+  </body>
+</html>
