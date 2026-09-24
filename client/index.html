@@ -4,23 +4,91 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bana Frites</title>
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="icon" type="image/png" href="/assets/logo.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
 
     <meta property="og:title" content="Bana Frites" />
     <meta property="og:description" content="Bana Frites connecte les jeunes de Kinshasa : messages anonymes, matching et jeux à deux." />
-    <meta property="og:image" content="/logo.png" />
+    <meta property="og:image" content="/assets/logo.png" />
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Bana Frites" />
     <meta name="twitter:description" content="Bana Frites connecte les jeunes de Kinshasa : messages anonymes, matching et jeux à deux." />
-    <meta name="twitter:image" content="/logo.png" />
+    <meta name="twitter:image" content="/assets/logo.png" />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="nav-panel" id="navPanel">
+      <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
+      <ul class="nav-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="#">Message anonyme</a></li>
+        <li><a href="#">Matching</a></li>
+        <li><a href="#">Jeu couple</a></li>
+        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero" style="background-image: url('/assets/hero.png');">
+      <div class="hero-overlay">
+        <img src="/assets/logo.png" alt="Bana Frites" class="hero-logo" />
+        <h1 class="hero-title">Bana Frites</h1>
+        <p class="hero-subtitle">Deviens Bana Frites, même sans les frites.</p>
+        <a href="/inscription.html" class="cta-btn">Créer un compte</a>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <h2 class="section-title">Comment ça marche</h2>
+      <div class="cards-grid">
+        <div class="card">
+          <img src="/assets/image-message-anonyme.png" alt="Message anonyme" class="card-image" />
+          <h3 class="card-title">Message anonyme</h3>
+          <p class="card-desc">Envoie un message sans révéler ton identité et crée la surprise.</p>
+        </div>
+        <div class="card">
+          <img src="/assets/image-matching.png" alt="Matching" class="card-image" />
+          <h3 class="card-title">Matching</h3>
+          <p class="card-desc">Trouve des profils qui te correspondent et fais de nouvelles rencontres.</p>
+        </div>
+        <div class="card">
+          <img src="/assets/image-jeu-couple.png" alt="Jeu couple" class="card-image" />
+          <h3 class="card-title">Jeu couple</h3>
+          <p class="card-desc">Joue en duo et découvre ton affinité avec ton match.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <img src="/assets/logo.png" alt="Bana Frites" class="footer-logo" />
+      <p class="footer-text">© 2026 Bana Frites</p>
+      <div class="footer-socials">
+        <span class="social-icon"></span>
+        <span class="social-icon"></span>
+        <span class="social-icon"></span>
+        <span class="social-icon"></span>
+      </div>
+    </footer>
+
+    <script type="module" src="/js/main.js"></script>
   </body>
 </html>
