@@ -10,6 +10,31 @@ class MatchingError extends Error {
   }
 }
 
+// Middleware d'authentification : vérifie le token Firebase envoyé par le client
+// et en extrait le VRAI uid, qui devient la seule source de vérité pour l'identité.
+// Le uid envoyé dans le body/params n'est plus jamais utilisé pour déterminer
+// qui fait l'action — au mieux pour un contrôle de cohérence (détecter une incohérence
+// entre ce que le client prétend et ce que son token prouve).
+async function verifyAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Authentification requise." });
+  }
+
+  const idToken = authHeader.slice("Bearer ".length);
+
+  try {
+    const decoded = await admin.auth().verifyIdToken(idToken);
+    req.authUid = decoded.uid;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: "Session invalide ou expirée. Reconnecte-toi." });
+  }
+}
+
+router.use(verifyAuth);
+
 async function getActiveMatchForUid(uid) {
   const [asA, asB] = await Promise.all([
     db.collection("matches").where("userA", "==", uid).where("status", "==", "active").limit(1).get(),
@@ -27,10 +52,13 @@ async function getActiveMatchForUid(uid) {
 
 // 1. POST /join-queue
 router.post("/join-queue", async (req, res) => {
-  const { uid } = req.body;
+  const uid = req.authUid;
+  const { uid: bodyUid } = req.body;
 
-  if (!uid) {
-    return res.status(400).json({ error: "uid est obligatoire." });
+  // Contrôle de cohérence uniquement : si le client envoie un uid dans le body
+  // qui ne correspond pas à son propre token, c'est suspect — on refuse.
+  if (bodyUid && bodyUid !== uid) {
+    return res.status(403).json({ error: "Incohérence d'identité détectée." });
   }
 
   try {
@@ -110,10 +138,13 @@ router.post("/join-queue", async (req, res) => {
 
 // 2. GET /status/:uid
 router.get("/status/:uid", async (req, res) => {
-  const { uid } = req.params;
+  const uid = req.authUid;
+  const paramUid = req.params.uid;
 
-  if (!uid) {
-    return res.status(400).json({ error: "uid est obligatoire." });
+  // Contrôle de cohérence : personne ne peut consulter le statut de quelqu'un d'autre,
+  // même en connaissant son uid — seul son propre statut (prouvé par le token) est accessible.
+  if (paramUid !== uid) {
+    return res.status(403).json({ error: "Vous ne pouvez consulter que votre propre statut." });
   }
 
   try {
@@ -150,10 +181,11 @@ router.get("/status/:uid", async (req, res) => {
 
 // 3. POST /leave-queue
 router.post("/leave-queue", async (req, res) => {
-  const { uid } = req.body;
+  const uid = req.authUid;
+  const { uid: bodyUid } = req.body;
 
-  if (!uid) {
-    return res.status(400).json({ error: "uid est obligatoire." });
+  if (bodyUid && bodyUid !== uid) {
+    return res.status(403).json({ error: "Incohérence d'identité détectée." });
   }
 
   try {
@@ -167,10 +199,15 @@ router.post("/leave-queue", async (req, res) => {
 
 // 4. POST /send-message
 router.post("/send-message", async (req, res) => {
-  const { matchId, uid, text } = req.body;
+  const uid = req.authUid;
+  const { matchId, uid: bodyUid, text } = req.body;
 
-  if (!matchId || !uid || !text || !text.trim()) {
-    return res.status(400).json({ error: "matchId, uid et text sont obligatoires." });
+  if (bodyUid && bodyUid !== uid) {
+    return res.status(403).json({ error: "Incohérence d'identité détectée." });
+  }
+
+  if (!matchId || !text || !text.trim()) {
+    return res.status(400).json({ error: "matchId et text sont obligatoires." });
   }
 
   try {
@@ -236,10 +273,15 @@ router.post("/send-message", async (req, res) => {
 
 // 5. POST /decision
 router.post("/decision", async (req, res) => {
-  const { matchId, uid, decision } = req.body;
+  const uid = req.authUid;
+  const { matchId, uid: bodyUid, decision } = req.body;
 
-  if (!matchId || !uid || !decision) {
-    return res.status(400).json({ error: "matchId, uid et decision sont obligatoires." });
+  if (bodyUid && bodyUid !== uid) {
+    return res.status(403).json({ error: "Incohérence d'identité détectée." });
+  }
+
+  if (!matchId || !decision) {
+    return res.status(400).json({ error: "matchId et decision sont obligatoires." });
   }
 
   if (decision !== "oui" && decision !== "non") {
