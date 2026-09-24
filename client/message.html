@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Envoie-moi un message anonyme — Bana Frites</title>
+    <title>Mes messages — Bana Frites</title>
     <link rel="icon" type="image/png" href="/src/assets/logo.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,45 +38,60 @@
       </ul>
     </nav>
 
-    <div class="anon-page">
-      <div class="anon-card" id="anonCard">
+    <div class="messages-page">
+      <div class="messages-container">
 
         <div id="loadingState">
-          <p class="anon-loading">Chargement...</p>
+          <p class="messages-loading">Chargement...</p>
         </div>
 
-        <div id="loggedOutState" hidden>
-          <h1 class="anon-title">Envoie-moi un message anonyme 🍟</h1>
-          <p class="anon-login-text">Connecte-toi pour envoyer ce message</p>
-          <a href="/connexion.html" id="loginLink" class="anon-login-btn">Se connecter</a>
-        </div>
+        <div id="contentState" hidden>
+          <h1 class="messages-title">Mes messages reçus</h1>
 
-        <div id="loggedInState" hidden>
-          <h1 class="anon-title">Envoie-moi un message anonyme 🍟</h1>
+          <div class="share-box">
+            <p class="share-label">Ton lien personnel</p>
+            <div class="share-link-row">
+              <input type="text" class="share-link-input" id="shareLinkInput" readonly />
+              <button class="share-copy-btn" id="copyLinkBtn">Copier le lien</button>
+            </div>
+          </div>
 
-          <p class="anon-error" id="errorMsg" role="alert" hidden></p>
-          <p class="anon-success" id="successMsg" hidden>Message envoyé ! 🎉</p>
+          <p class="messages-error" id="errorMsg" hidden></p>
 
-          <form id="messageForm" novalidate>
-            <textarea
-              class="anon-textarea"
-              id="messageText"
-              maxlength="300"
-              rows="5"
-              placeholder="Écris ton message ici..."
-            ></textarea>
-            <p class="anon-counter"><span id="charCount">300</span> caractères restants</p>
+          <div id="messagesListState">
+            <p class="messages-loading" id="messagesLoading">Chargement des messages...</p>
+            <p class="messages-empty" id="emptyState" hidden>Pas encore de message... partage ton lien !</p>
 
-            <button type="submit" class="anon-submit-btn" id="submitBtn">
-              Envoyer anonymement
-            </button>
-          </form>
+            <div class="messages-list" id="messagesList"></div>
+
+            <button class="load-more-btn" id="loadMoreBtn" hidden>Voir plus</button>
+          </div>
         </div>
 
       </div>
     </div>
 
+    <div class="unlock-overlay" id="unlockOverlay" hidden>
+      <div class="unlock-card" id="unlockCard">
+        <button class="unlock-close-btn" id="unlockCloseBtn" aria-label="Fermer">✕</button>
+
+        <div class="unlock-icon">🔒</div>
+        <h2 class="unlock-title">Débloque cette identité</h2>
+        <p class="unlock-text">Découvre qui t'a envoyé ce message pour seulement 1$</p>
+
+        <p class="unlock-error" id="unlockError" hidden></p>
+
+        <div class="unlock-field">
+          <label for="unlockPhone">Numéro Mobile Money</label>
+          <input type="tel" id="unlockPhone" placeholder="Ex: 09XXXXXXXX" />
+        </div>
+
+        <button class="unlock-pay-btn" id="unlockPayBtn">Payer avec Mobile Money</button>
+        <button class="unlock-cancel-link" id="unlockCancelBtn">Annuler</button>
+      </div>
+    </div>
+
     <script type="module" src="/js/main.js"></script>
-    <script type="module" src="/js/message.js"></script>
+    <script type="module" src="/js/messages.js"></script>
   </body>
 </html>
