@@ -17,15 +17,17 @@ import { db } from "./firebase-config.js";
 
 export async function createUserProfile(uid, data) {
   try {
-    const { nom, postnom, prenom, dateNaissance, age, email } = data;
+    const { nom, postnom, prenom, sexe, dateNaissance, age, email, telephone } = data;
 
     await setDoc(doc(db, "users", uid), {
       nom,
       postnom,
       prenom,
+      sexe,
       dateNaissance,
       age,
       email,
+      telephone,
       createdAt: serverTimestamp(),
       description: "",
       photoURL: null,
