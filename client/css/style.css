@@ -49,6 +49,43 @@ body {
   border-radius: 2px;
 }
 
+/* NAV DESKTOP (cachée sur mobile, visible à partir de 768px) */
+.nav-desktop {
+  display: none;
+}
+
+.nav-desktop ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-desktop a {
+  text-decoration: none;
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.nav-desktop a:hover {
+  color: #E4231C;
+}
+
+.nav-desktop .nav-cta {
+  background-color: #E4231C;
+  color: #ffffff;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  font-weight: 700;
+}
+
+.nav-desktop .nav-cta:hover {
+  background-color: #c91e18;
+  color: #ffffff;
+}
+
 /* NAV OVERLAY */
 .nav-overlay {
   position: fixed;
@@ -130,41 +167,51 @@ body {
   align-items: center;
   text-align: center;
   padding: 1.5rem;
-  background-color: rgba(0, 0, 0, 0.35);
+  background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
   height: 100%;
   width: 100%;
   justify-content: center;
-  opacity: 0;
-  transform: scale(0.95);
-  animation: heroFadeIn 0.8s ease forwards;
-}
-
-@keyframes heroFadeIn {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 .hero-logo {
   height: 70px;
   width: auto;
   margin-bottom: 1rem;
+  opacity: 0;
+  transform: translateY(-14px);
+  animation: heroFadeUp 0.7s ease 0.1s forwards;
 }
 
 .hero-title {
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-family: 'Anton', 'Poppins', sans-serif;
+  font-size: 3rem;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 400;
   color: #ffffff;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeUp 0.7s ease 0.25s forwards;
 }
 
 .hero-subtitle {
-  font-size: 1rem;
-  color: #ffffff;
+  font-size: 1.05rem;
+  color: #f2f2f2;
   max-width: 480px;
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
   line-height: 1.5;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeUp 0.7s ease 0.4s forwards;
+}
+
+@keyframes heroFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .cta-btn {
@@ -172,18 +219,22 @@ body {
   background-color: #FFC800;
   color: #1a1a1a;
   border: none;
-  padding: 0.9rem 2rem;
-  font-size: 1rem;
+  padding: 1rem 2.4rem;
+  font-size: 1.05rem;
   font-weight: 700;
   border-radius: 50px;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeUp 0.7s ease 0.55s forwards;
 }
 
 .cta-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* HOW IT WORKS */
@@ -194,9 +245,12 @@ body {
 }
 
 .section-title {
+  font-family: 'Anton', 'Poppins', sans-serif;
+  text-transform: uppercase;
   text-align: center;
-  font-size: 1.75rem;
-  font-weight: 800;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
   color: #E4231C;
   margin-bottom: 2rem;
 }
@@ -219,6 +273,7 @@ body {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
+/* Classe ajoutée par js/main.js via IntersectionObserver au scroll */
 .card.card-visible {
   opacity: 1;
   transform: translateY(0);
@@ -282,8 +337,18 @@ body {
 
 /* BREAKPOINTS */
 @media (min-width: 768px) {
+  /* Le hamburger + panneau off-canvas ne sont qu'une version mobile : à partir
+     de 768px on bascule sur une vraie nav horizontale dans le header. */
+  .hamburger-btn {
+    display: none;
+  }
+
+  .nav-desktop {
+    display: block;
+  }
+
   .hero-title {
-    font-size: 3.5rem;
+    font-size: 4.2rem;
   }
 
   .hero-subtitle {
