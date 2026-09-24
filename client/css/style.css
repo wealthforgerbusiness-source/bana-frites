@@ -1408,3 +1408,282 @@ body {
     padding: 2.5rem;
   }
 }
+/* Jeu Couple */
+.couple-page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #E4231C 0%, #FFC800 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.couple-container {
+  position: relative;
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 2rem 1.5rem;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: coupleFadeIn 0.5s ease forwards;
+}
+
+@keyframes coupleFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.couple-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.couple-icon {
+  font-size: 3rem;
+  margin-bottom: 0.75rem;
+}
+
+.couple-title {
+  color: #E4231C;
+  font-weight: 800;
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.couple-text {
+  color: #555555;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.couple-btn {
+  display: inline-block;
+  background-color: #E4231C;
+  color: #ffffff;
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.couple-btn:hover {
+  background-color: #c91e18;
+  transform: translateY(-2px);
+}
+
+/* Écrans 2 & 4 : question par question */
+.couple-progress {
+  color: #888888;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.couple-question {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.couple-question-text {
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+.couple-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.couple-option-btn {
+  width: 100%;
+  background-color: #f9f9f9;
+  border: 1.5px solid #e0e0e0;
+  color: #1a1a1a;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+}
+
+.couple-option-btn:hover {
+  border-color: #FFC800;
+}
+
+.couple-option-selected {
+  background-color: #fff4d6;
+  border-color: #FFC800;
+  font-weight: 700;
+  transform: translateY(-1px);
+}
+
+.couple-nav-buttons {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.couple-nav-btn {
+  flex: 1;
+  border: none;
+  padding: 0.85rem 1rem;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.couple-nav-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.couple-nav-prev {
+  background-color: #f0f0f0;
+  color: #555555;
+}
+
+.couple-nav-prev:hover:not(:disabled) {
+  background-color: #e4e4e4;
+}
+
+.couple-nav-next {
+  background-color: #E4231C;
+  color: #ffffff;
+}
+
+.couple-nav-next:hover:not(:disabled) {
+  background-color: #c91e18;
+  transform: translateY(-2px);
+}
+
+/* Écran 3 : partage du lien */
+.couple-share-box {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.couple-share-input {
+  flex: 1;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  color: #555555;
+  background-color: #f9f9f9;
+}
+
+.couple-copy-btn {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  padding: 0.7rem 1.1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.couple-copy-btn:hover {
+  background-color: #333333;
+}
+
+.couple-whatsapp-btn {
+  display: inline-block;
+  background-color: #25D366;
+  color: #ffffff;
+  padding: 0.9rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.couple-whatsapp-btn:hover {
+  background-color: #1eb955;
+  transform: translateY(-2px);
+}
+
+/* Animation de fleurs / cœurs flottants (écrans 3 & 5) — CSS pur, pas d'images */
+.couple-hearts-anim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.couple-float {
+  position: absolute;
+  bottom: -10%;
+  font-size: 1.4rem;
+  opacity: 0;
+  animation: coupleFloatUp 3s ease-in infinite;
+}
+
+@keyframes coupleFloatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-260px) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+/* Écran 5 : variante confettis (chute + rotation) */
+.couple-confetti .couple-float {
+  top: -10%;
+  bottom: auto;
+  animation-name: coupleConfettiFall;
+}
+
+@keyframes coupleConfettiFall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(300px) rotate(-30deg);
+    opacity: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .couple-container {
+    padding: 2.5rem;
+  }
+}
