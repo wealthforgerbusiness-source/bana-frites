@@ -2,9 +2,10 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import HomePage from './pages/HomePage.jsx'
-import SignupForm from './components/SignupForm.jsx'
-import LoginForm from './components/LoginForm.jsx'
+import SignupForm from './pages/SignupForm.jsx'
+import LoginForm from './pages/LoginForm.jsx'
 import SendAnonymousMessage from './pages/SendAnonymousMessage.jsx'
+import ReceivedMessages from './pages/ReceivedMessages.jsx'
 import './App.css'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/inscription" element={<SignupForm />} />
         <Route path="/connexion" element={<LoginForm />} />
         <Route path="/m/:uid" element={<SendAnonymousMessage />} />
+        <Route path="/mes-messages" element={<ReceivedMessages />} />
       </Routes>
     </>
   )
