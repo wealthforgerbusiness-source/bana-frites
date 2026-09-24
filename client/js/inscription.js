@@ -20,6 +20,7 @@ const sexeInput = document.getElementById("sexe");
 const dateNaissanceInput = document.getElementById("dateNaissance");
 const ageDisplay = document.getElementById("ageDisplay");
 const emailInput = document.getElementById("email");
+const telephoneInput = document.getElementById("telephone");
 const passwordInput = document.getElementById("password");
 const confirmPasswordInput = document.getElementById("confirmPassword");
 const acceptedTermsInput = document.getElementById("acceptedTerms");
@@ -33,6 +34,7 @@ const errorFields = {
   sexe: document.getElementById("errorSexe"),
   dateNaissance: document.getElementById("errorDateNaissance"),
   email: document.getElementById("errorEmail"),
+  telephone: document.getElementById("errorTelephone"),
   password: document.getElementById("errorPassword"),
   confirmPassword: document.getElementById("errorConfirmPassword"),
 };
@@ -118,6 +120,14 @@ function validate() {
     isValid = false;
   }
 
+  if (!telephoneInput.value.trim()) {
+    showFieldError("telephone", "Le numéro de téléphone est obligatoire.");
+    isValid = false;
+  } else if (!/^\d{9,}$/.test(telephoneInput.value.trim())) {
+    showFieldError("telephone", "Numéro invalide");
+    isValid = false;
+  }
+
   if (!passwordInput.value) {
     showFieldError("password", "Le mot de passe est obligatoire.");
     isValid = false;
@@ -168,6 +178,7 @@ form.addEventListener("submit", async (e) => {
       dateNaissance: dateNaissanceInput.value,
       age,
       email,
+      telephone: telephoneInput.value.trim(),
     });
 
     if (profileResult.success) {
