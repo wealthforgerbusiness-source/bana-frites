@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Se connecter — Bana Frites</title>
-    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+    <link rel="icon" type="image/png" href="/src/assets/icons/logo.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Anton&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="/css/style.css" />
   </head>
@@ -16,8 +16,16 @@
 
     <header class="header">
       <a href="/index.html">
-        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+        <img src="/src/assets/icons/logo.png" alt="Bana Frites" class="header-logo" />
       </a>
+
+      <nav class="nav-desktop">
+        <ul>
+          <li><a href="/index.html#comment-ca-marche">Comment ça marche</a></li>
+          <li><a href="/inscription.html" class="nav-cta">Créer un compte</a></li>
+        </ul>
+      </nav>
+
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
         <span></span>
         <span></span>
@@ -31,10 +39,8 @@
       <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
       <ul class="nav-links">
         <li><a href="/index.html">Accueil</a></li>
-        <li><a href="#">Message anonyme</a></li>
-        <li><a href="#">Matching</a></li>
-        <li><a href="#">Jeu couple</a></li>
-        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+        <li><a href="/index.html#comment-ca-marche">Comment ça marche</a></li>
+        <li><a href="/inscription.html">Créer un compte</a></li>
       </ul>
     </nav>
 
