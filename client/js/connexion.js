@@ -12,6 +12,19 @@ const errorFields = {
   password: document.getElementById("errorPassword"),
 };
 
+function getRedirectUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const redirect = params.get("redirect");
+
+  // Sécurité : n'accepte qu'un chemin local (commence par "/"), jamais une URL externe
+  // (protection basique contre un ?redirect=https://site-malveillant.com )
+  if (redirect && redirect.startsWith("/")) {
+    return redirect;
+  }
+
+  return "/index.html";
+}
+
 function showFieldError(field, message) {
   errorFields[field].textContent = message;
   errorFields[field].hidden = false;
@@ -64,7 +77,7 @@ form.addEventListener("submit", async (e) => {
   const result = await signInWithEmail(emailInput.value.trim(), passwordInput.value);
 
   if (result.success) {
-    window.location.href = "/index.html";
+    window.location.href = getRedirectUrl();
   } else {
     showGlobalError(result.error);
     submitBtn.disabled = false;
@@ -80,7 +93,7 @@ googleBtn.addEventListener("click", async () => {
   const result = await signInWithGoogle();
 
   if (result.success) {
-    window.location.href = "/index.html";
+    window.location.href = getRedirectUrl();
   } else {
     showGlobalError(result.error);
     googleBtn.disabled = false;
