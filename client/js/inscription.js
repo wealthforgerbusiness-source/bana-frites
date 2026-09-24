@@ -16,6 +16,7 @@ const form = document.getElementById("signupForm");
 const nomInput = document.getElementById("nom");
 const postnomInput = document.getElementById("postnom");
 const prenomInput = document.getElementById("prenom");
+const sexeInput = document.getElementById("sexe");
 const dateNaissanceInput = document.getElementById("dateNaissance");
 const ageDisplay = document.getElementById("ageDisplay");
 const emailInput = document.getElementById("email");
@@ -29,6 +30,7 @@ const errorFields = {
   nom: document.getElementById("errorNom"),
   postnom: document.getElementById("errorPostnom"),
   prenom: document.getElementById("errorPrenom"),
+  sexe: document.getElementById("errorSexe"),
   dateNaissance: document.getElementById("errorDateNaissance"),
   email: document.getElementById("errorEmail"),
   password: document.getElementById("errorPassword"),
@@ -36,7 +38,6 @@ const errorFields = {
 };
 
 function showFieldError(field, message) {
-  // textContent uniquement : jamais d'innerHTML avec du texte dynamique
   errorFields[field].textContent = message;
   errorFields[field].hidden = false;
 }
@@ -90,6 +91,14 @@ function validate() {
   }
   if (!prenomInput.value.trim()) {
     showFieldError("prenom", "Le prénom est obligatoire.");
+    isValid = false;
+  }
+
+  if (!sexeInput.value) {
+    showFieldError("sexe", "Le sexe est obligatoire.");
+    isValid = false;
+  } else if (sexeInput.value !== "garcon" && sexeInput.value !== "fille") {
+    showFieldError("sexe", "Valeur invalide.");
     isValid = false;
   }
 
@@ -155,6 +164,7 @@ form.addEventListener("submit", async (e) => {
       nom: nomInput.value.trim(),
       postnom: postnomInput.value.trim(),
       prenom: prenomInput.value.trim(),
+      sexe: sexeInput.value,
       dateNaissance: dateNaissanceInput.value,
       age,
       email,
