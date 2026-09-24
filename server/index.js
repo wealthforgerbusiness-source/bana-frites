@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import paymentsRouter from './routes/payments.js';
 import webhooksRouter from './routes/webhooks.js';
+import matchingRouter from './routes/matching.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,9 +22,9 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/payments', paymentsRouter);
+app.use('/api/matching', matchingRouter);
 
 // Sert les fichiers vanilla (HTML/CSS/JS) directement depuis client/
-// (plus de dossier dist : pas de build, client/ et server/ sont côte à côte à la racine du repo)
 app.use(express.static(path.join(__dirname, '../client')));
 
 // Catch-all : toute route qui n'est pas /api/... renvoie index.html,
