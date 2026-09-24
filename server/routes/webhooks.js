@@ -82,55 +82,89 @@ router.post("/saspay", async (req, res) => {
     const transaction = transactionResponse.data;
     const description = transaction.description || "";
 
-    const match = description.match(/^unlock:(.+)$/);
+    const unlockMessageMatch = description.match(/^unlock:(.+)$/);
+    const unlockPhoneMatch = description.match(/^unlock-phone:([^:]+):(.+)$/);
 
-    if (!match) {
-      console.error("Webhook SasPay : description de transaction au mauvais format.", description);
+    if (unlockMessageMatch) {
+      const messageId = unlockMessageMatch[1];
+
+      const messageRef = db.collection("messages").doc(messageId);
+      const messageSnap = await messageRef.get();
+
+      if (!messageSnap.exists) {
+        console.error(`Webhook SasPay : message ${messageId} introuvable.`);
+        return res.status(200).send("ok");
+      }
+
+      const messageData = messageSnap.data();
+
+      if (messageData.revealed === true) {
+        return res.status(200).send("already processed");
+      }
+
+      const senderRef = db.collection("messageSenders").doc(messageId);
+      const senderSnap = await senderRef.get();
+
+      if (!senderSnap.exists) {
+        console.error(`Webhook SasPay : messageSenders/${messageId} introuvable.`);
+        return res.status(200).send("ok");
+      }
+
+      const { fromUid } = senderSnap.data();
+
+      const senderUserRef = db.collection("users").doc(fromUid);
+      const senderUserSnap = await senderUserRef.get();
+
+      if (!senderUserSnap.exists) {
+        console.error(`Webhook SasPay : users/${fromUid} introuvable.`);
+        return res.status(200).send("ok");
+      }
+
+      const { nom, prenom } = senderUserSnap.data();
+
+      await messageRef.update({
+        revealed: true,
+        revealedSenderName: `${prenom} ${nom}`,
+        revealedAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+
       return res.status(200).send("ok");
     }
 
-    const messageId = match[1];
+    if (unlockPhoneMatch) {
+      const matchId = unlockPhoneMatch[1];
+      const uid = unlockPhoneMatch[2];
 
-    const messageRef = db.collection("messages").doc(messageId);
-    const messageSnap = await messageRef.get();
+      const matchRef = db.collection("matches").doc(matchId);
+      const matchSnap = await matchRef.get();
 
-    if (!messageSnap.exists) {
-      console.error(`Webhook SasPay : message ${messageId} introuvable.`);
+      if (!matchSnap.exists) {
+        console.error(`Webhook SasPay : match ${matchId} introuvable.`);
+        return res.status(200).send("ok");
+      }
+
+      const matchData = matchSnap.data();
+
+      let revealedField;
+      if (matchData.userA === uid) {
+        revealedField = "phoneRevealedA";
+      } else if (matchData.userB === uid) {
+        revealedField = "phoneRevealedB";
+      } else {
+        console.error(`Webhook SasPay : uid ${uid} ne fait pas partie du match ${matchId}.`);
+        return res.status(200).send("ok");
+      }
+
+      if (matchData[revealedField] === true) {
+        return res.status(200).send("already processed");
+      }
+
+      await matchRef.update({ [revealedField]: true });
+
       return res.status(200).send("ok");
     }
 
-    const messageData = messageSnap.data();
-
-    if (messageData.revealed === true) {
-      return res.status(200).send("already processed");
-    }
-
-    const senderRef = db.collection("messageSenders").doc(messageId);
-    const senderSnap = await senderRef.get();
-
-    if (!senderSnap.exists) {
-      console.error(`Webhook SasPay : messageSenders/${messageId} introuvable.`);
-      return res.status(200).send("ok");
-    }
-
-    const { fromUid } = senderSnap.data();
-
-    const senderUserRef = db.collection("users").doc(fromUid);
-    const senderUserSnap = await senderUserRef.get();
-
-    if (!senderUserSnap.exists) {
-      console.error(`Webhook SasPay : users/${fromUid} introuvable.`);
-      return res.status(200).send("ok");
-    }
-
-    const { nom, prenom } = senderUserSnap.data();
-
-    await messageRef.update({
-      revealed: true,
-      revealedSenderName: `${prenom} ${nom}`,
-      revealedAt: admin.firestore.FieldValue.serverTimestamp(),
-    });
-
+    console.error("Webhook SasPay : description de transaction au mauvais format.", description);
     return res.status(200).send("ok");
   } catch (error) {
     console.error(
