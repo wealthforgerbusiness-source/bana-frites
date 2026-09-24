@@ -1,4 +1,4 @@
-// Menu hamburger : ouverture / fermeture du panneau de navigation
+// Menu hamburger : ouverture / fermeture du panneau de navigation (mobile uniquement)
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const navCloseBtn = document.getElementById('navCloseBtn');
 const navPanel = document.getElementById('navPanel');
@@ -26,14 +26,23 @@ if (navOverlay) {
   navOverlay.addEventListener('click', closeMenu);
 }
 
+// Sécurité : si la fenêtre passe en desktop (>=768px) pendant que le panneau
+// mobile est ouvert, on le referme pour éviter un overlay bloqué à l'écran.
+const desktopBreakpoint = window.matchMedia('(min-width: 768px)');
+desktopBreakpoint.addEventListener('change', (e) => {
+  if (e.matches) closeMenu();
+});
+
 // Animation d'apparition des cartes au scroll (Intersection Observer natif)
+// IMPORTANT : la classe ajoutée ici doit correspondre à celle utilisée
+// dans css/style.css (.card.card-visible), sinon les cartes restent invisibles.
 const cards = document.querySelectorAll('.card');
 
 const cardObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        entry.target.classList.add('card-visible');
         cardObserver.unobserve(entry.target);
       }
     });
