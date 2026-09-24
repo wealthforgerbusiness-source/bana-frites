@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Créer un compte — Bana Frites</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="nav-panel" id="navPanel">
+      <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
+      <ul class="nav-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="#">Message anonyme</a></li>
+        <li><a href="#">Matching</a></li>
+        <li><a href="#">Jeu couple</a></li>
+        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+      </ul>
+    </nav>
+
+    <div class="signup-page">
+      <form class="signup-card" id="signupForm" novalidate>
+        <h2 class="signup-title">Créer un compte</h2>
+
+        <p class="signup-global-error" id="globalError" role="alert" hidden></p>
+
+        <div class="signup-field" style="animation-delay: 0.05s">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" />
+          <p class="field-error" id="errorNom" hidden></p>
+        </div>
+
+        <div class="signup-field" style="animation-delay: 0.1s">
+          <label for="postnom">Postnom</label>
+          <input type="text" id="postnom" />
+          <p class="field-error" id="errorPostnom" hidden></p>
+        </div>
+
+        <div class="signup-field" style="animation-delay: 0.15s">
+          <label for="prenom">Prénom</label>
+          <input type="text" id="prenom" />
+          <p class="field-error" id="errorPrenom" hidden></p>
+        </div>
+
+        <div class="signup-field" style="animation-delay: 0.2s">
+          <label for="dateNaissance">Date de naissance</label>
+          <input type="date" id="dateNaissance" />
+          <p class="age-display" id="ageDisplay" hidden></p>
+          <p class="field-error" id="errorDateNaissance" hidden></p>
+        </div>
+
+        <div class="signup-field" style="animation-delay: 0.25s">
+          <label for="email">Email</label>
+          <input type="email" id="email" />
+          <p class="field-error" id="errorEmail" hidden></p>
+        </div>
+
+        <div class="signup-field" style="animation-delay: 0.3s">
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" />
+          <p class="field-error" id="errorPassword" hidden></p>
+        </div>
+
+        <div class="signup-field" style="animation-delay: 0.35s">
+          <label for="confirmPassword">Confirmation du mot de passe</label>
+          <input type="password" id="confirmPassword" />
+          <p class="field-error" id="errorConfirmPassword" hidden></p>
+        </div>
+
+        <div class="signup-field signup-terms" style="animation-delay: 0.4s">
+          <label class="signup-terms-label">
+            <input type="checkbox" id="acceptedTerms" />
+            <span>
+              J'ai lu et j'accepte les
+              <a href="/conditions.html" target="_blank">conditions générales d'utilisation</a>
+            </span>
+          </label>
+        </div>
+
+        <button type="submit" class="signup-submit-btn" id="submitBtn" disabled>
+          Créer un compte
+        </button>
+      </form>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/inscription.js"></script>
+  </body>
+</html>
