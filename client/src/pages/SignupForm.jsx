@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { signUpWithEmail } from '../firebase/auth.js';
 import './SignupForm.css';
 
@@ -29,6 +29,7 @@ function SignupForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const [errors, setErrors] = useState({});
   const [globalError, setGlobalError] = useState('');
@@ -83,6 +84,11 @@ function SignupForm() {
     setGlobalError('');
 
     if (!validate()) {
+      return;
+    }
+
+    if (!acceptedTerms) {
+      setGlobalError('Tu dois accepter les conditions pour continuer');
       return;
     }
 
@@ -199,7 +205,21 @@ function SignupForm() {
           {errors.confirmPassword && <p className="field-error">{errors.confirmPassword}</p>}
         </div>
 
-        <button type="submit" className="signup-submit-btn" disabled={loading}>
+        <div className="signup-field signup-terms" style={{ animationDelay: '0.4s' }}>
+          <label className="signup-terms-label">
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+            />
+            <span>
+              J'ai lu et j'accepte les{' '}
+              <Link to="/conditions" target="_blank">conditions générales d'utilisation</Link>
+            </span>
+          </label>
+        </div>
+
+        <button type="submit" className="signup-submit-btn" disabled={loading || !acceptedTerms}>
           {loading ? (
             <span className="btn-loading">
               <span className="spinner"></span>
