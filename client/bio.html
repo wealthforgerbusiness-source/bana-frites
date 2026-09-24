@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon panel — Bana Frites</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="nav-panel" id="navPanel">
+      <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
+      <ul class="nav-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="#">Message anonyme</a></li>
+        <li><a href="#">Matching</a></li>
+        <li><a href="#">Jeu couple</a></li>
+        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+      </ul>
+    </nav>
+
+    <div class="profile-page">
+      <div class="profile-container bio-container">
+
+        <div id="loadingState">
+          <p class="profile-loading">Chargement...</p>
+        </div>
+
+        <div id="contentState" hidden>
+
+          <p class="profile-error" id="loadError" hidden></p>
+
+          <!-- Écran : panel non actif -->
+          <div id="notActiveScreen" hidden class="bio-activate-screen">
+            <div class="match-icon">🔗</div>
+            <h1 class="profile-title">Active ton panel</h1>
+            <p class="match-text">
+              Un panel "link-in-bio" à toi, avec tes réseaux et ta description,
+              partageable en un lien. Actif 30 jours pour 2$.
+            </p>
+            <p class="bio-price">2$ / mois</p>
+            <p class="bio-error" id="activateError" hidden></p>
+            <button class="match-btn" id="activateBtn">Activer pour 2$</button>
+          </div>
+
+          <!-- Écran : panel actif -->
+          <div id="activeScreen" hidden>
+
+            <div class="share-box">
+              <p class="share-label">Ton lien public</p>
+              <div class="share-link-row">
+                <input type="text" class="share-link-input" id="bioShareLink" readonly />
+                <button class="share-copy-btn" id="bioCopyBtn">Copier</button>
+              </div>
+            </div>
+
+            <div class="bio-expiration-box">
+              <p id="expirationText" class="bio-expiration-text"></p>
+              <button class="bio-renew-btn" id="renewBtn" hidden>Renouveler pour 2$</button>
+              <p class="bio-error" id="renewError" hidden></p>
+            </div>
+
+            <form id="bioForm" class="bio-form" novalidate>
+              <div class="signup-field">
+                <label for="bioNom">Nom affiché</label>
+                <input type="text" id="bioNom" maxlength="50" />
+              </div>
+
+              <div class="signup-field">
+                <label for="bioDescription">Description</label>
+                <textarea id="bioDescription" maxlength="100" rows="3"></textarea>
+                <p class="profile-counter"><span id="bioDescCount">100</span> caractères restants</p>
+              </div>
+
+              <div class="bio-link-row">
+                <label>Lien 1</label>
+                <input type="text" id="linkTitle1" placeholder="Titre (ex: Instagram)" maxlength="30" />
+                <input type="text" id="linkUrl1" placeholder="https://..." />
+              </div>
+
+              <div class="bio-link-row">
+                <label>Lien 2</label>
+                <input type="text" id="linkTitle2" placeholder="Titre (ex: TikTok)" maxlength="30" />
+                <input type="text" id="linkUrl2" placeholder="https://..." />
+              </div>
+
+              <div class="bio-link-row">
+                <label>Lien 3</label>
+                <input type="text" id="linkTitle3" placeholder="Titre" maxlength="30" />
+                <input type="text" id="linkUrl3" placeholder="https://..." />
+              </div>
+
+              <div class="bio-link-row">
+                <label>Lien 4</label>
+                <input type="text" id="linkTitle4" placeholder="Titre" maxlength="30" />
+                <input type="text" id="linkUrl4" placeholder="https://..." />
+              </div>
+
+              <p class="profile-error" id="bioSaveError" hidden></p>
+              <p class="profile-success" id="bioSaveSuccess" hidden>Panel mis à jour !</p>
+
+              <button type="submit" class="profile-save-btn" id="bioSaveBtn">Enregistrer</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/bottomnav.js"></script>
+    <script type="module" src="/js/bio.js"></script>
+  </body>
+</html>
