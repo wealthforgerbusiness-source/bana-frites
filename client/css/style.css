@@ -515,9 +515,15 @@ body {
 }
 
 .footer-logo {
-  height: 32px;
-  width: auto;
-  filter: brightness(0) invert(1);
+  height: 44px;
+  width: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+  /* Le PNG source n'a pas de fond transparent (fond blanc plein) : un filtre
+     invert() transformerait tout le carré en blanc uni. On l'encadre plutôt
+     dans un badge blanc arrondi, qui reste lisible sur le rouge du footer. */
+  background-color: #ffffff;
+  padding: 4px;
 }
 
 .footer-text {
