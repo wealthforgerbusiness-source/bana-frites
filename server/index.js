@@ -22,14 +22,14 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/payments', paymentsRouter);
 
-// Sert le build React en statique
-app.use(express.static(path.join(__dirname, 'client/dist')));
+// Sert les fichiers vanilla (HTML/CSS/JS) directement depuis client/
+// (plus de dossier dist : pas de build, client/ et server/ sont côte à côte à la racine du repo)
+app.use(express.static(path.join(__dirname, '../client')));
 
 // Catch-all : toute route qui n'est pas /api/... renvoie index.html,
-// pour que React Router gère la navigation côté client (évite un 404
-// serveur au rafraîchissement d'une route comme /mes-messages)
+// pour que la navigation fonctionne même sur un rafraîchissement direct d'une page
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '../client', 'index.html'));
 });
 
 app.listen(PORT, () => {
