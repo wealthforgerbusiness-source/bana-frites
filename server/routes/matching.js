@@ -346,4 +346,46 @@ router.post("/decision", async (req, res) => {
   }
 });
 
+// 6. GET /phone/:matchId — lit le numéro de l'autre personne, une fois débloqué
+router.get("/phone/:matchId", async (req, res) => {
+  const uid = req.authUid;
+  const { matchId } = req.params;
+
+  try {
+    const matchSnap = await db.collection("matches").doc(matchId).get();
+
+    if (!matchSnap.exists) {
+      return res.status(400).json({ error: "Match introuvable." });
+    }
+
+    const data = matchSnap.data();
+
+    let otherUid, revealedField;
+    if (data.userA === uid) {
+      otherUid = data.userB;
+      revealedField = "phoneRevealedA";
+    } else if (data.userB === uid) {
+      otherUid = data.userA;
+      revealedField = "phoneRevealedB";
+    } else {
+      return res.status(403).json({ error: "Vous ne faites pas partie de ce match." });
+    }
+
+    if (data[revealedField] !== true) {
+      return res.status(403).json({ error: "Le numéro n'est pas encore débloqué." });
+    }
+
+    const otherUserSnap = await db.collection("users").doc(otherUid).get();
+
+    if (!otherUserSnap.exists) {
+      return res.status(400).json({ error: "Profil introuvable." });
+    }
+
+    return res.json({ phone: otherUserSnap.data().telephone });
+  } catch (error) {
+    console.error("Erreur /phone :", error);
+    return res.status(500).json({ error: "Impossible de récupérer le numéro. Veuillez réessayer." });
+  }
+});
+
 export default router;
