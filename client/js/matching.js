@@ -13,6 +13,7 @@ let currentMatchId = null;
 let statusPollInterval = null;
 let unsubscribeMessages = null;
 let unsubscribeMatchDoc = null;
+let phoneFetchAttempted = false; // évite de rappeler /phone plusieurs fois sur le même match
 
 // --- Éléments DOM ---
 const loadingState = document.getElementById("loadingState");
@@ -39,6 +40,8 @@ const decisionNoBtn = document.getElementById("decisionNoBtn");
 const resultSuccess = document.getElementById("resultSuccess");
 const resultEnded = document.getElementById("resultEnded");
 const backToSearchBtn = document.getElementById("backToSearchBtn");
+const revealPhoneBtn = document.getElementById("revealPhoneBtn");
+const revealedPhoneText = document.getElementById("revealedPhoneText");
 
 const ALL_SCREENS = [searchScreen, waitingScreen, chatScreen, decisionScreen, resultScreen];
 
@@ -154,10 +157,47 @@ cancelWaitBtn.addEventListener("click", async () => {
   showScreen(searchScreen);
 });
 
+// --- Révélation du téléphone : lit le numéro débloqué et l'affiche ---
+async function fetchAndShowPhone(matchId) {
+  if (phoneFetchAttempted) return;
+  phoneFetchAttempted = true;
+
+  const result = await callMatchingApi(`phone/${matchId}`);
+
+  if (result && result.phone) {
+    revealPhoneBtn.hidden = true;
+    revealedPhoneText.textContent = `Son numéro : ${result.phone}`;
+    revealedPhoneText.hidden = false;
+  } else {
+    // Pas encore débloqué ou erreur : on laisse la possibilité de réessayer
+    phoneFetchAttempted = false;
+  }
+}
+
+revealPhoneBtn.addEventListener("click", async () => {
+  revealPhoneBtn.disabled = true;
+  revealPhoneBtn.textContent = "Redirection...";
+
+  const result = await callMatchingApi("create-phone-unlock-payment", {
+    method: "POST",
+  });
+
+  if (!result) return;
+
+  if (result.success && result.paymentUrl) {
+    window.location.href = result.paymentUrl;
+  } else {
+    alert(result.error || "Impossible de créer le paiement. Réessaie plus tard.");
+    revealPhoneBtn.disabled = false;
+    revealPhoneBtn.textContent = "Voir son numéro 🔒 1$";
+  }
+});
+
 // --- Entrée dans un match : met en place les écouteurs Firestore ---
 function enterMatch(matchId) {
   stopPolling();
   currentMatchId = matchId;
+  phoneFetchAttempted = false;
 
   // Écouteur temps réel sur les messages du match (lecture seule côté client)
   const messagesQuery = query(
@@ -191,7 +231,7 @@ function enterMatch(matchId) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   });
 
-  // Écouteur temps réel sur le document du match (status, readyForDecision, decisions)
+  // Écouteur temps réel sur le document du match (status, readyForDecision, decisions, révélation)
   unsubscribeMatchDoc = onSnapshot(doc(db, "matches", matchId), (docSnap) => {
     if (!docSnap.exists()) return;
 
@@ -201,6 +241,19 @@ function enterMatch(matchId) {
 
     if (data.status === "matched_confirmed") {
       showResult(true);
+
+      const isUserA = data.userA === currentUser.uid;
+      const revealed = isUserA ? data.phoneRevealedA : data.phoneRevealedB;
+
+      if (revealed) {
+        revealPhoneBtn.hidden = true;
+        fetchAndShowPhone(matchId);
+      } else {
+        revealPhoneBtn.hidden = false;
+        revealPhoneBtn.disabled = false;
+        revealPhoneBtn.textContent = "Voir son numéro 🔒 1$";
+        revealedPhoneText.hidden = true;
+      }
     } else if (data.status === "ended") {
       showResult(false);
     } else if (data.status === "active") {
@@ -294,7 +347,7 @@ backToSearchBtn.addEventListener("click", () => {
 });
 
 // --- Initialisation ---
-onAuthChange((user) => {
+onAuthChange(async (user) => {
   currentUser = user;
 
   if (!user) {
@@ -303,5 +356,17 @@ onAuthChange((user) => {
   }
 
   loadingState.hidden = true;
-  showScreen(searchScreen);
+
+  // Reprend automatiquement un match en cours (utile après un retour de paiement
+  // SasPay, qui recharge la page depuis zéro).
+  const result = await callMatchingApi(`status/${user.uid}`);
+
+  if (result && result.matched) {
+    enterMatch(result.matchId);
+  } else if (result && result.waiting) {
+    showScreen(waitingScreen);
+    startStatusPolling();
+  } else {
+    showScreen(searchScreen);
+  }
 });
