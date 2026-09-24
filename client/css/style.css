@@ -786,3 +786,167 @@ body {
     padding: 2.5rem;
   }
 }
+/* PAGE MESSAGE ANONYME : états chargement / non connecté */
+.anon-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #E4231C 0%, #FFC800 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.anon-card {
+  position: relative;
+  z-index: 1;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: anonCardFadeIn 0.5s ease forwards;
+}
+
+@keyframes anonCardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.anon-title {
+  text-align: center;
+  color: #E4231C;
+  font-weight: 800;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.anon-loading {
+  text-align: center;
+  color: #555555;
+  font-size: 0.95rem;
+  padding: 1.5rem 0;
+}
+
+.anon-login-text {
+  color: #555555;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.anon-login-btn {
+  display: inline-block;
+  background-color: #E4231C;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.anon-login-btn:hover {
+  background-color: #c91e18;
+  transform: translateY(-2px);
+}
+
+.anon-error {
+  background-color: #fdecea;
+  color: #E4231C;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  animation: anonShake 0.4s ease;
+}
+
+@keyframes anonShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.anon-success {
+  background-color: #eaf9ec;
+  color: #1f8a3b;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  animation: anonFadeIn 0.4s ease;
+}
+
+@keyframes anonFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.anon-textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: none;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.anon-textarea:focus {
+  border-color: #FFC800;
+  box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.25);
+}
+
+.anon-counter {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #888888;
+  margin-top: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.anon-submit-btn {
+  width: 100%;
+  background-color: #E4231C;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.anon-submit-btn:hover:not(:disabled) {
+  background-color: #c91e18;
+  transform: translateY(-2px);
+}
+
+.anon-submit-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+  .anon-card {
+    padding: 2.5rem;
+  }
+}
