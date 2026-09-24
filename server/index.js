@@ -22,11 +22,15 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/payments', paymentsRouter);
 
-// Servir le build React en statique (à activer une fois client/dist généré)
-// app.use(express.static(path.join(__dirname, 'client/dist')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-// });
+// Sert le build React en statique
+app.use(express.static(path.join(__dirname, 'client/dist')));
+
+// Catch-all : toute route qui n'est pas /api/... renvoie index.html,
+// pour que React Router gère la navigation côté client (évite un 404
+// serveur au rafraîchissement d'une route comme /mes-messages)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur le port ${PORT}`);
