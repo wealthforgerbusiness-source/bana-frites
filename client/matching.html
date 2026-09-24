@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matching — Bana Frites</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="nav-panel" id="navPanel">
+      <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
+      <ul class="nav-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="#">Message anonyme</a></li>
+        <li><a href="#">Matching</a></li>
+        <li><a href="#">Jeu couple</a></li>
+        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+      </ul>
+    </nav>
+
+    <div class="matching-page">
+      <div class="matching-container">
+
+        <div id="loadingState">
+          <p class="messages-loading">Chargement...</p>
+        </div>
+
+        <!-- Écran recherche -->
+        <div id="searchScreen" class="match-screen" hidden>
+          <div class="match-icon">💕</div>
+          <h1 class="match-title">Trouve ton match</h1>
+          <p class="match-text">
+            On te connecte avec quelqu'un au hasard. Vous échangez 3 messages chacun,
+            puis vous décidez si ça matche vraiment.
+          </p>
+          <button class="match-btn" id="findMatchBtn">Trouver un match 💕</button>
+        </div>
+
+        <!-- Écran attente -->
+        <div id="waitingScreen" class="match-screen" hidden>
+          <div class="match-spinner-lg"></div>
+          <p class="match-waiting-text">Recherche en cours...</p>
+          <button class="match-cancel-btn" id="cancelWaitBtn">Annuler</button>
+        </div>
+
+        <!-- Écran conversation -->
+        <div id="chatScreen" class="match-screen match-screen-chat" hidden>
+          <p class="match-counter">Messages restants : <span id="messagesRemaining">3</span>/3</p>
+
+          <div class="chat-messages" id="chatMessages"></div>
+
+          <button class="match-ready-btn" id="readyBtn" hidden>Ça matche ? 💬</button>
+
+          <form class="chat-input-row" id="chatForm">
+            <input type="text" id="chatInput" placeholder="Écris ton message..." maxlength="300" autocomplete="off" />
+            <button type="submit" class="chat-send-btn" id="chatSendBtn">Envoyer</button>
+          </form>
+        </div>
+
+        <!-- Écran décision -->
+        <div id="decisionScreen" class="match-screen" hidden>
+          <div class="match-icon">🤔</div>
+          <h1 class="match-title">Alors, ça matche ?</h1>
+          <p class="match-text" id="decisionStatusText"></p>
+          <div class="decision-buttons">
+            <button class="decision-btn decision-yes" id="decisionYesBtn">Oui 💚</button>
+            <button class="decision-btn decision-no" id="decisionNoBtn">Non 💔</button>
+          </div>
+        </div>
+
+        <!-- Écran résultat -->
+        <div id="resultScreen" class="match-screen" hidden>
+          <div id="resultSuccess" hidden>
+            <div class="match-icon">🎉</div>
+            <h1 class="match-title">C'est un match ! 🎉</h1>
+            <button class="match-btn" id="revealPhoneBtn" disabled>Voir son numéro 🔒 1$</button>
+          </div>
+          <div id="resultEnded" hidden>
+            <div class="match-icon">💔</div>
+            <h1 class="match-title">Ce n'est pas un match cette fois</h1>
+            <button class="match-btn" id="backToSearchBtn">Chercher un autre match</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/bottomnav.js"></script>
+    <script type="module" src="/js/matching.js"></script>
+  </body>
+</html>
