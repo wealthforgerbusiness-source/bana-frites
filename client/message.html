@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Envoie-moi un message anonyme — Bana Frites</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Ouvrir le menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <nav class="nav-panel" id="navPanel">
+      <button class="nav-close-btn" id="navCloseBtn" aria-label="Fermer le menu">✕</button>
+      <ul class="nav-links">
+        <li><a href="/index.html">Accueil</a></li>
+        <li><a href="#">Message anonyme</a></li>
+        <li><a href="#">Matching</a></li>
+        <li><a href="#">Jeu couple</a></li>
+        <li><a href="/connexion.html">Connexion / Créer un compte</a></li>
+      </ul>
+    </nav>
+
+    <div class="anon-page">
+      <div class="anon-card" id="anonCard">
+
+        <div id="loadingState">
+          <p class="anon-loading">Chargement...</p>
+        </div>
+
+        <div id="loggedOutState" hidden>
+          <h1 class="anon-title">Envoie-moi un message anonyme 🍟</h1>
+          <p class="anon-login-text">Connecte-toi pour envoyer ce message</p>
+          <a href="/connexion.html" id="loginLink" class="anon-login-btn">Se connecter</a>
+        </div>
+
+        <div id="loggedInState" hidden>
+          <h1 class="anon-title">Envoie-moi un message anonyme 🍟</h1>
+
+          <p class="anon-error" id="errorMsg" role="alert" hidden></p>
+          <p class="anon-success" id="successMsg" hidden>Message envoyé ! 🎉</p>
+
+          <form id="messageForm" novalidate>
+            <textarea
+              class="anon-textarea"
+              id="messageText"
+              maxlength="300"
+              rows="5"
+              placeholder="Écris ton message ici..."
+            ></textarea>
+            <p class="anon-counter"><span id="charCount">300</span> caractères restants</p>
+
+            <button type="submit" class="anon-submit-btn" id="submitBtn">
+              Envoyer anonymement
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/message.js"></script>
+  </body>
+</html>
