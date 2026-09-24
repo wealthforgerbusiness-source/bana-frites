@@ -301,3 +301,215 @@ body {
     padding: 5rem 1.25rem;
   }
 }
+/* FORMULAIRES (inscription / connexion) */
+.signup-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #E4231C 0%, #FFC800 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.signup-card {
+  position: relative;
+  z-index: 1;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signup-title {
+  text-align: center;
+  color: #E4231C;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.signup-global-error {
+  background-color: #fdecea;
+  color: #E4231C;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.signup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fieldFadeIn 0.5s ease forwards;
+}
+
+@keyframes fieldFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.signup-field input[type="text"],
+.signup-field input[type="email"],
+.signup-field input[type="password"],
+.signup-field input[type="date"] {
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+}
+
+.signup-field input:focus {
+  border-color: #FFC800;
+  box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.25);
+}
+
+.age-display {
+  font-size: 0.85rem;
+  color: #E4231C;
+  font-weight: 600;
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: #E4231C;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.signup-terms-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #555555;
+  cursor: pointer;
+}
+
+.signup-terms-label input[type="checkbox"] {
+  margin-top: 0.2rem;
+}
+
+.signup-terms-label a {
+  color: #E4231C;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.signup-terms-label a:hover {
+  text-decoration: underline;
+}
+
+.signup-submit-btn {
+  margin-top: 0.5rem;
+  background-color: #E4231C;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 1.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.2s ease;
+}
+
+.signup-submit-btn:hover:not(:disabled) {
+  background-color: #c91e18;
+  transform: translateY(-2px);
+}
+
+.signup-submit-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.google-btn {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border: 1.5px solid #e0e0e0;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+
+.google-btn:hover:not(:disabled) {
+  background-color: #f7f7f7;
+  border-color: #cccccc;
+  transform: translateY(-2px);
+}
+
+.google-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.google-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.signup-switch-link {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555555;
+  margin-top: 0.5rem;
+}
+
+.signup-switch-link a {
+  color: #E4231C;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.signup-switch-link a:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+  .signup-card {
+    padding: 2.5rem;
+  }
+}
