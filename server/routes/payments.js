@@ -24,8 +24,9 @@ async function verifyAuth(req, res, next) {
 }
 
 // --- Déblocage de l'identité d'un message anonyme (1$) ---
-router.post("/create-unlock-payment", async (req, res) => {
-  const { messageId, buyerUid, phone } = req.body;
+router.post("/create-unlock-payment", verifyAuth, async (req, res) => {
+  const { messageId, phone } = req.body;
+  const buyerUid = req.authUid; // uid vérifié via le token, jamais celui du body
 
   if (!messageId || !buyerUid || !phone) {
     return res.status(400).json({ success: false, error: "messageId, buyerUid et phone sont obligatoires." });
