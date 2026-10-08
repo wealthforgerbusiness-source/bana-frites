@@ -1687,3 +1687,133 @@ body {
     padding: 2.5rem;
   }
 }
+
+/* ============================================================
+   Dashboard admin
+   ============================================================ */
+.admin-page {
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem 1rem 4rem;
+  background: #f6f6f6;
+}
+
+.admin-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.admin-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.admin-refresh-btn {
+  background-color: #E4231C;
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.admin-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-card-label {
+  font-size: 0.78rem;
+  color: #666666;
+}
+
+.admin-card-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #E4231C;
+  word-break: break-word;
+}
+
+.admin-section-title {
+  margin: 1.75rem 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.admin-table-wrap {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.admin-table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #888888;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-note {
+  margin-top: 0.85rem;
+  font-size: 0.8rem;
+  color: #777777;
+}
+
+.admin-back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #E4231C;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .admin-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
