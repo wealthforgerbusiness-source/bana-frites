@@ -84,6 +84,7 @@ router.post("/saspay", async (req, res) => {
 
     const unlockMessageMatch = description.match(/^unlock:(.+)$/);
     const unlockPhoneMatch = description.match(/^unlock-phone:([^:]+):(.+)$/);
+    const bioSubscribeMatch = description.match(/^bio-subscribe:(.+)$/);
 
     if (unlockMessageMatch) {
       const messageId = unlockMessageMatch[1];
@@ -160,6 +161,40 @@ router.post("/saspay", async (req, res) => {
       }
 
       await matchRef.update({ [revealedField]: true });
+
+      return res.status(200).send("ok");
+    }
+
+    if (bioSubscribeMatch) {
+      const bioUid = bioSubscribeMatch[1];
+
+      const bioRef = db.collection("bioPanels").doc(bioUid);
+      const bioSnap = await bioRef.get();
+      const bioData = bioSnap.exists ? bioSnap.data() : {};
+
+      // Anti-doublon : SasPay peut renvoyer le même webhook plusieurs fois
+      if (bioData.lastTransactionId === transactionId) {
+        return res.status(200).send("already processed");
+      }
+
+      // Renouvellement : on prolonge depuis la date d'expiration si le panel est encore actif
+      const now = Date.now();
+      const currentExpiry =
+        bioData.expiresAt && typeof bioData.expiresAt.toMillis === "function"
+          ? bioData.expiresAt.toMillis()
+          : 0;
+      const startFrom = Math.max(now, currentExpiry);
+      const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
+      await bioRef.set(
+        {
+          active: true,
+          expiresAt: admin.firestore.Timestamp.fromMillis(startFrom + THIRTY_DAYS_MS),
+          lastTransactionId: transactionId,
+          lastPaidAt: admin.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
 
       return res.status(200).send("ok");
     }
