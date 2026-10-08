@@ -185,12 +185,12 @@ unlockPayBtn.addEventListener("click", async () => {
   unlockPayBtn.textContent = "Traitement en cours...";
 
   try {
+    const idToken = await currentUser.getIdToken();
     const res = await fetch("/api/payments/create-unlock-payment", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${idToken}` },
       body: JSON.stringify({
         messageId: currentMessageId,
-        buyerUid: currentUser.uid,
         phone,
       }),
     });
