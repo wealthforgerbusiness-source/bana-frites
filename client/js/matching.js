@@ -178,9 +178,20 @@ revealPhoneBtn.addEventListener("click", async () => {
   revealPhoneBtn.disabled = true;
   revealPhoneBtn.textContent = "Redirection...";
 
-  const result = await callMatchingApi("create-phone-unlock-payment", {
-    method: "POST",
-  });
+  const authHeader = await getAuthHeader();
+  if (!authHeader) return;
+
+  let result = null;
+  try {
+    const payRes = await fetch("/api/payments/create-phone-unlock-payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authHeader },
+      body: JSON.stringify({ matchId: currentMatchId }),
+    });
+    result = await payRes.json();
+  } catch (err) {
+    result = { success: false, error: "Erreur réseau. Réessaie." };
+  }
 
   if (!result) return;
 
