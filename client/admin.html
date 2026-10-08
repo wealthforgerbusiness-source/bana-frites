@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin — Bana Frites</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <a href="/index.html">
+        <img src="/src/assets/logo.png" alt="Bana Frites" class="header-logo" />
+      </a>
+    </header>
+
+    <div class="admin-page">
+      <div class="admin-container">
+
+        <div id="loadingState">
+          <p class="profile-loading">Chargement...</p>
+        </div>
+
+        <div id="deniedState" hidden>
+          <h1 class="admin-title">Accès refusé</h1>
+          <p class="profile-error" id="deniedText">Cette page est réservée à l'administrateur.</p>
+          <a href="/index.html" class="admin-back-link">← Retour à l'accueil</a>
+        </div>
+
+        <div id="dashboardState" hidden>
+          <div class="admin-topbar">
+            <h1 class="admin-title">Dashboard</h1>
+            <button class="admin-refresh-btn" id="refreshBtn">Actualiser</button>
+          </div>
+
+          <div class="admin-grid" id="statsGrid"></div>
+
+          <h2 class="admin-section-title">Revenus par produit</h2>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr><th>Produit</th><th>Paiements</th><th>Net reçu</th></tr>
+              </thead>
+              <tbody id="typeTableBody"></tbody>
+            </table>
+          </div>
+
+          <h2 class="admin-section-title">10 derniers paiements</h2>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr><th>Date</th><th>Produit</th><th>Net reçu</th></tr>
+              </thead>
+              <tbody id="recentTableBody"></tbody>
+            </table>
+          </div>
+          <p class="admin-note" id="recentEmpty" hidden>Aucun paiement pour le moment.</p>
+
+          <p class="admin-note">
+            « Net reçu » = montant que SasPay te verse après frais. Le MRR estimé =
+            panels actifs × prix de l'abonnement.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>
