@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import paymentsRouter from './routes/payments.js';
 import webhooksRouter from './routes/webhooks.js';
 import matchingRouter from './routes/matching.js';
+import adminRouter from './routes/admin.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +24,7 @@ app.get('/api/health', (req, res) => {
 
 app.use('/api/payments', paymentsRouter);
 app.use('/api/matching', matchingRouter);
+app.use('/api/admin', adminRouter);
 
 // Sert les fichiers vanilla (HTML/CSS/JS) directement depuis client/
 app.use(express.static(path.join(__dirname, '../client')));
