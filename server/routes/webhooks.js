@@ -86,6 +86,48 @@ router.post("/saspay", async (req, res) => {
     const unlockPhoneMatch = description.match(/^unlock-phone:([^:]+):(.+)$/);
     const bioSubscribeMatch = description.match(/^bio-subscribe:(.+)$/);
 
+    // Enregistre le paiement réel (montants fournis par SasPay) pour le dashboard admin.
+    // Le document a pour id le transactionId : si SasPay renvoie le webhook, aucun doublon.
+    try {
+      let paymentType = null;
+      let paymentUid = null;
+      let paymentRef = null;
+
+      if (unlockMessageMatch) {
+        paymentType = "message";
+        paymentRef = unlockMessageMatch[1];
+      } else if (unlockPhoneMatch) {
+        paymentType = "phone";
+        paymentRef = unlockPhoneMatch[1];
+        paymentUid = unlockPhoneMatch[2];
+      } else if (bioSubscribeMatch) {
+        paymentType = "bio";
+        paymentUid = bioSubscribeMatch[1];
+        paymentRef = bioSubscribeMatch[1];
+      }
+
+      if (paymentType) {
+        const paymentDocRef = db.collection("payments").doc(String(transactionId));
+        const paymentDocSnap = await paymentDocRef.get();
+
+        if (!paymentDocSnap.exists) {
+          await paymentDocRef.set({
+            transactionId: String(transactionId),
+            type: paymentType,
+            uid: paymentUid,
+            refId: paymentRef,
+            requested: Number(transaction.requested_amount) || 0,
+            net: Number(transaction.net_amount) || 0,
+            fee: Number(transaction.client_fee) || 0,
+            currency: transaction.currency || "",
+            createdAt: admin.firestore.FieldValue.serverTimestamp(),
+          });
+        }
+      }
+    } catch (recordError) {
+      console.error("Webhook SasPay : enregistrement du paiement échoué.", recordError.message);
+    }
+
     if (unlockMessageMatch) {
       const messageId = unlockMessageMatch[1];
 
