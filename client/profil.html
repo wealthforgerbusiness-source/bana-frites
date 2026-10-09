@@ -45,6 +45,80 @@
           <p class="profile-loading">Chargement...</p>
         </div>
 
+        <div id="setupState" hidden>
+          <h1 class="profile-title">Complète ton profil</h1>
+          <p class="profile-setup-intro">
+            Dernière étape avant de profiter de Bana Frites. Ces informations sont
+            obligatoires (âge minimum : 18 ans).
+          </p>
+
+          <p class="profile-error" id="setupGlobalError" role="alert" hidden></p>
+
+          <form class="profile-setup-form" id="setupForm" novalidate>
+            <div class="signup-field">
+              <label>Email du compte</label>
+              <p class="profile-setup-email" id="setupEmail"></p>
+            </div>
+
+            <div class="signup-field" style="animation-delay: 0.05s">
+              <label for="setupPrenom">Prénom</label>
+              <input type="text" id="setupPrenom" maxlength="100" />
+              <p class="field-error" id="setupErrPrenom" hidden></p>
+            </div>
+
+            <div class="signup-field" style="animation-delay: 0.1s">
+              <label for="setupNom">Nom</label>
+              <input type="text" id="setupNom" maxlength="100" />
+              <p class="field-error" id="setupErrNom" hidden></p>
+            </div>
+
+            <div class="signup-field" style="animation-delay: 0.15s">
+              <label for="setupPostnom">Postnom</label>
+              <input type="text" id="setupPostnom" maxlength="100" />
+              <p class="field-error" id="setupErrPostnom" hidden></p>
+            </div>
+
+            <div class="signup-field" style="animation-delay: 0.2s">
+              <label for="setupSexe">Sexe</label>
+              <select id="setupSexe">
+                <option value="" disabled selected>Choisis une option</option>
+                <option value="garcon">Garçon</option>
+                <option value="fille">Fille</option>
+              </select>
+              <p class="field-error" id="setupErrSexe" hidden></p>
+            </div>
+
+            <div class="signup-field" style="animation-delay: 0.25s">
+              <label for="setupDob">Date de naissance</label>
+              <input type="date" id="setupDob" />
+              <p class="age-display" id="setupAge" hidden></p>
+              <p class="field-error" id="setupErrDob" hidden></p>
+            </div>
+
+            <div class="signup-field" style="animation-delay: 0.3s">
+              <label for="setupTel">Numéro de téléphone (Mobile Money)</label>
+              <input type="tel" id="setupTel" placeholder="Ex: 09XXXXXXXX" maxlength="15" />
+              <p class="field-error" id="setupErrTel" hidden></p>
+            </div>
+
+            <div class="signup-field signup-terms" style="animation-delay: 0.35s">
+              <label class="signup-terms-label">
+                <input type="checkbox" id="setupTerms" />
+                <span>
+                  J'ai lu et j'accepte les
+                  <a href="/conditions.html" target="_blank">conditions générales d'utilisation</a>
+                </span>
+              </label>
+            </div>
+
+            <button type="submit" class="signup-submit-btn" id="setupSubmit" disabled>
+              Valider mon profil
+            </button>
+          </form>
+
+          <button type="button" class="profile-setup-logout" id="setupLogoutBtn">Se déconnecter</button>
+        </div>
+
         <div id="contentState" hidden>
           <h1 class="profile-title">Mon profil</h1>
 
