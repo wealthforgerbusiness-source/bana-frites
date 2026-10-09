@@ -1,4 +1,5 @@
 import { onAuthChange } from "./auth.js";
+import { ensureProfileOrRedirect } from "./firestore.js";
 
 const NAV_ITEMS = [
   {
@@ -86,5 +87,8 @@ onAuthChange((user) => {
     const nav = buildBottomNav(user);
     document.body.appendChild(nav);
     document.body.classList.add("has-bottom-nav");
+
+    // Compte sans profil (ex: connexion Google) : redirection vers "Complète ton profil"
+    ensureProfileOrRedirect(user);
   }
 });
