@@ -1,5 +1,5 @@
 import { onAuthChange } from "./auth.js";
-import { sendAnonymousMessage } from "./firestore.js";
+import { sendAnonymousMessage, ensureProfileOrRedirect } from "./firestore.js";
 
 const MAX_LENGTH = 300;
 
@@ -51,8 +51,15 @@ messageText.addEventListener("input", () => {
 
 let currentUser = null;
 
-onAuthChange((user) => {
+onAuthChange(async (user) => {
   currentUser = user;
+
+  // Compte sans profil (ex: connexion Google) : redirection vers "Complète ton profil"
+  if (user) {
+    const profileOk = await ensureProfileOrRedirect(user);
+    if (!profileOk) return;
+  }
+
   loadingState.hidden = true;
 
   if (user) {
