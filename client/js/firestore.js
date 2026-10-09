@@ -173,3 +173,61 @@ export async function submitCoupleAnswers(quizId, answersB, secondPlayerUid) {
     return { success: false, error: "Impossible d'enregistrer tes réponses. Veuillez réessayer." };
   }
 }
+
+// ============================================================
+// Garde de profil : un compte connecté SANS profil Firestore (cas typique :
+// connexion Google) doit d'abord compléter son profil (18+, sexe, téléphone, CGU).
+// ============================================================
+
+// Vérifie seulement si le profil existe (1 lecture).
+export async function userProfileExists(uid) {
+  try {
+    const docSnap = await getDoc(doc(db, "users", uid));
+    return { success: true, exists: docSnap.exists() };
+  } catch (error) {
+    return { success: false, exists: false };
+  }
+}
+
+const PROFILE_CACHE_PREFIX = "profileOk:";
+
+// Mémorise "profil OK" pour la session : évite une lecture Firestore à chaque page.
+export function markProfileOk(uid) {
+  try {
+    sessionStorage.setItem(PROFILE_CACHE_PREFIX + uid, "1");
+  } catch (error) {
+    // stockage indisponible (navigateur intégré, mode privé) : sans importance
+  }
+}
+
+function isProfileMarkedOk(uid) {
+  try {
+    return sessionStorage.getItem(PROFILE_CACHE_PREFIX + uid) === "1";
+  } catch (error) {
+    return false;
+  }
+}
+
+// Retourne true si l'utilisateur peut continuer, false si une redirection est en cours.
+export async function ensureProfileOrRedirect(user) {
+  if (!user) return false;
+
+  // La page profil affiche elle-même l'écran "Complète ton profil"
+  if (window.location.pathname === "/profil.html") return true;
+
+  if (isProfileMarkedOk(user.uid)) return true;
+
+  const result = await userProfileExists(user.uid);
+
+  // Erreur réseau : on ne redirige pas à tort (le serveur revérifie le profil de toute façon)
+  if (!result.success) return true;
+
+  if (result.exists) {
+    markProfileOk(user.uid);
+    return true;
+  }
+
+  const back = window.location.pathname + window.location.search;
+  window.location.replace("/profil.html?redirect=" + encodeURIComponent(back));
+  return false;
+}
