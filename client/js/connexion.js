@@ -1,4 +1,5 @@
 import { signInWithEmail, signInWithGoogle } from "./auth.js";
+import { userProfileExists } from "./firestore.js";
 
 const form = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
@@ -18,11 +19,24 @@ function getRedirectUrl() {
 
   // Sécurité : n'accepte qu'un chemin local (commence par "/"), jamais une URL externe
   // (protection basique contre un ?redirect=https://site-malveillant.com )
-  if (redirect && redirect.startsWith("/")) {
+  // "//site.com" et "/\\site.com" commencent aussi par "/" mais mènent vers un site externe : refusés
+  if (redirect && redirect.startsWith("/") && !redirect.startsWith("//") && !redirect.startsWith("/\\")) {
     return redirect;
   }
 
   return "/index.html";
+}
+
+// Après connexion : un compte sans profil (ex: Google) passe d'abord par "Complète ton profil"
+async function goAfterLogin(user) {
+  const target = getRedirectUrl();
+  const check = await userProfileExists(user.uid);
+
+  if (check.success && !check.exists) {
+    window.location.href = "/profil.html?redirect=" + encodeURIComponent(target);
+  } else {
+    window.location.href = target;
+  }
 }
 
 function showFieldError(field, message) {
@@ -77,7 +91,7 @@ form.addEventListener("submit", async (e) => {
   const result = await signInWithEmail(emailInput.value.trim(), passwordInput.value);
 
   if (result.success) {
-    window.location.href = getRedirectUrl();
+    await goAfterLogin(result.user);
   } else {
     showGlobalError(result.error);
     submitBtn.disabled = false;
@@ -93,7 +107,7 @@ googleBtn.addEventListener("click", async () => {
   const result = await signInWithGoogle();
 
   if (result.success) {
-    window.location.href = getRedirectUrl();
+    await goAfterLogin(result.user);
   } else {
     showGlobalError(result.error);
     googleBtn.disabled = false;
