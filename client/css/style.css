@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+/* Un élément avec l'attribut "hidden" doit TOUJOURS rester caché, même si sa classe
+   définit un display (flex, grid...) — sinon les écrans masqués restent visibles. */
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   color: #1a1a1a;
@@ -642,7 +648,9 @@ body {
 .signup-field input[type="text"],
 .signup-field input[type="email"],
 .signup-field input[type="password"],
-.signup-field input[type="date"] {
+.signup-field input[type="tel"],
+.signup-field input[type="date"],
+.signup-field select {
   padding: 0.7rem 0.9rem;
   border: 1.5px solid #e0e0e0;
   border-radius: 10px;
@@ -652,7 +660,14 @@ body {
   outline: none;
 }
 
-.signup-field input:focus {
+.signup-field select {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  width: 100%;
+}
+
+.signup-field input:focus,
+.signup-field select:focus {
   border-color: #FFC800;
   box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.25);
 }
@@ -1816,4 +1831,40 @@ body {
   .admin-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* ============================================================
+   Profil : écran "Complète ton profil"
+   ============================================================ */
+.profile-setup-intro {
+  font-size: 0.9rem;
+  color: #555555;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.profile-setup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-setup-email {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  word-break: break-all;
+}
+
+.profile-setup-logout {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  background: none;
+  border: none;
+  color: #777777;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
 }
