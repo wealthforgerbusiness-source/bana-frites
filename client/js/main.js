@@ -33,6 +33,49 @@ desktopBreakpoint.addEventListener('change', (e) => {
   if (e.matches) closeMenu();
 });
 
+// ============================================================
+// Liens du menu : remplace les "#" provisoires des pages HTML par les vraies pages,
+// et adapte les boutons "Connexion / Créer un compte" quand l'utilisateur est connecté.
+// ============================================================
+
+const NAV_LINK_TARGETS = {
+  'Message anonyme': '/messages.html',
+  'Matching': '/matching.html',
+  'Jeu couple': '/couple.html',
+};
+
+document.querySelectorAll('.nav-links a').forEach((link) => {
+  const target = NAV_LINK_TARGETS[link.textContent.trim()];
+  if (target) link.setAttribute('href', target);
+});
+
+import('./auth.js')
+  .then(({ onAuthChange }) => {
+    onAuthChange((user) => {
+      if (!user) return;
+
+      // Connexion -> Mon profil
+      document.querySelectorAll('a[href="/connexion.html"]').forEach((link) => {
+        link.textContent = 'Mon profil';
+        link.setAttribute('href', '/profil.html');
+      });
+
+      // Créer un compte : retiré des menus, transformé en accès à l'espace dans les boutons d'appel
+      document.querySelectorAll('a[href="/inscription.html"]').forEach((link) => {
+        const item = link.closest('li');
+        if (item) {
+          item.remove();
+        } else {
+          link.textContent = 'Ouvrir mon espace';
+          link.setAttribute('href', '/messages.html');
+        }
+      });
+    });
+  })
+  .catch(() => {
+    // Firebase indisponible : les liens par défaut restent en place
+  });
+
 // Animation d'apparition des cartes au scroll (Intersection Observer natif)
 // IMPORTANT : la classe ajoutée ici doit correspondre à celle utilisée
 // dans css/style.css (.card.card-visible), sinon les cartes restent invisibles.
